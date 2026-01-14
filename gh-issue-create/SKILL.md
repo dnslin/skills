@@ -1,15 +1,15 @@
 ---
-name: gh-flow
-description: "GitHub Issue workflow automation. Auto-create structured Issues from PRD docs with Epic/Sub-Issue splitting, auto-labeling, and GitHub Tasklist linking. Triggers: (1) user requests Issue creation from PRD, (2) /gh-issue-create command, (3) converting requirements to executable tasks. Requires gh CLI."
+name: gh-issue-create
+description: "GitHub Issue creation from PRD. Auto-create structured Issues with Epic/Sub-Issue splitting, auto-labeling, and GitHub Tasklist linking. Triggers: /gh-issue-create command or PRD to Issue conversion requests. Requires gh CLI."
 ---
 
-# gh-flow
+# gh-issue-create
 
-GitHub Issue workflow automation skill. Currently supports `gh-issue-create`.
+Create structured GitHub Issues from PRD documents. part of the gh-flow workflow family.
 
 **Output language: Chinese (中文)**
 
-## gh-issue-create Workflow
+## Workflow
 
 Create structured GitHub Issues from PRD documents:
 
@@ -33,6 +33,7 @@ If not authenticated, prompt user to run `gh auth login`.
 ### Step 2: Read and Analyze PRD
 
 Read user-specified PRD file (default `docs/*-prd.md`), analyze to identify:
+
 - Features and tasks
 - Dependencies between tasks
 - Priority and complexity
@@ -40,6 +41,7 @@ Read user-specified PRD file (default `docs/*-prd.md`), analyze to identify:
 ### Step 3: Generate Task List
 
 For each identified task, generate:
+
 - Title (concise and clear)
 - Issue Body (use template from `references/issue-template.md`)
 - Labels (see `references/labels.md`)
@@ -48,11 +50,13 @@ For each identified task, generate:
 ### Step 4: Epic Split Suggestion
 
 For complex tasks (estimated > 3 days or contains multiple independent sub-features):
+
 1. Suggest splitting into Epic + Sub-Issues
 2. Show split plan
 3. Wait for user confirmation or adjustment
 
 **Split principles:**
+
 - Sub-Issue granularity: completable by one person in 1-3 days
 - Each Sub-Issue independently testable
 - Clear dependencies
@@ -60,16 +64,19 @@ For complex tasks (estimated > 3 days or contains multiple independent sub-featu
 ### Step 5: Create Issues
 
 **Creation order:**
+
 1. First create Issues without dependencies
 2. Then create Issues with dependencies (can reference created Issue numbers)
 3. Finally create Epic (containing Tasklist of all Sub-Issues)
 
 **Create command:**
+
 ```bash
 gh issue create --title "Title" --body "Content" --label "label1,label2"
 ```
 
 **Epic Tasklist format:**
+
 ````markdown
 ```[tasklist]
 ### Sub-Issues
@@ -81,6 +88,7 @@ gh issue create --title "Title" --body "Content" --label "label1,label2"
 ### Step 6: Optional Project Link
 
 Ask user if linking to GitHub Project:
+
 ```bash
 # List available Projects
 gh project list
@@ -94,7 +102,7 @@ gh project item-add PROJECT_NUMBER --owner OWNER --url ISSUE_URL
 After creation, output summary table (in Chinese):
 
 ```
-✅ 已创建 X 个 Issue
+✅ X Issues created
 
 | # | 标题 | 类型 | 优先级 | 依赖 |
 |---|------|------|--------|------|
@@ -107,3 +115,4 @@ After creation, output summary table (in Chinese):
 
 - **Issue Body template**: See `references/issue-template.md`
 - **Label definitions**: See `references/labels.md`
+
