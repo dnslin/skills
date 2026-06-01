@@ -1,0 +1,64 @@
+name: Release Skills
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  package-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Package all skills
+        run: |
+          mkdir -p dist
+          for skill_dir in */; do
+            skill_name="${skill_dir%/}"
+            if [ -f "$skill_dir/SKILL.md" ]; then
+              echo "Packaging: $skill_name"
+              cd skill-creator
+              python -m scripts.package_skill "../$skill_dir" ../dist || echo "Warning: Failed to package $skill_name"
+              cd ..
+            fi
+          done
+          echo "Packaged files:"
+          ls -la dist/
+
+      - name: Create source archive
+        run: |
+          tar --exclude='.git' --exclude='dist' --exclude='.github' -czf dist/skills-source-${{ github.ref_name }}.tar.gz .
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          echo "## Released Skills" > release-notes.md
+          echo "" >> release-notes.md
+          for skill_dir in */; do
+            skill_name="${skill_dir%/}"
+            if [ -f "$skill_dir/SKILL.md" ]; then
+              echo "- **$skill_name**" >> release-notes.md
+            fi
+          done
+          echo "" >> release-notes.md
+          echo "Tag: \`${{ github.ref_name }}\`" >> release-notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Skills ${{ github.ref_name }}
+          body_path: release-notes.md
+          files: dist/*
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
