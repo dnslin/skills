@@ -8,6 +8,7 @@ Claude Code 技能集合，涵盖前端开发、设计与开发者工具。
 - **design-taste-frontend** - 前端设计指导与审美优化
 - **find-skills** - 发现和定位可用技能
 - **frontend-design** - 创建高质量的生产级前端界面
+- **gh-create-issue** - 根据 PRD 或需求自动创建 GitHub Issue，支持复杂度评估与任务拆分
 - **gpt-imagegen** - 使用 OpenAI 兼容 API 生成和编辑图片
 - **grill-with-docs** - 基于文档的开发辅助
 - **init-deep** - 初始化嵌套 CLAUDE.md 结构，实现渐进式上下文加载
