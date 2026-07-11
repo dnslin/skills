@@ -3,7 +3,7 @@
 set -Eeuo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
-SKILLS_DIR="$ROOT/skills"
+SKILLS_DIR="$ROOT"
 MANIFEST_FILE="$ROOT/.upstream-managed-skills"
 VERSIONS_FILE="$ROOT/UPSTREAM_VERSIONS.md"
 
