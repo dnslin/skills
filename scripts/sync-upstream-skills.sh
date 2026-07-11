@@ -4,45 +4,105 @@ set -Eeuo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
 SKILLS_DIR="$ROOT/skills"
-MANIFEST="$ROOT/.upstream-managed-skills"
+MANIFEST_FILE="$ROOT/.upstream-managed-skills"
 VERSIONS_FILE="$ROOT/UPSTREAM_VERSIONS.md"
 
 TMP_DIR="$(mktemp -d)"
+REPOS_DIR="$TMP_DIR/repos"
 STAGING_DIR="$TMP_DIR/staging"
-NEW_MANIFEST="$TMP_DIR/new-manifest"
+NEW_MANIFEST_FILE="$TMP_DIR/new-manifest"
+VERSIONS_TEMP_FILE="$TMP_DIR/UPSTREAM_VERSIONS.md"
 
 trap 'rm -rf "$TMP_DIR"' EXIT
 
 mkdir -p "$SKILLS_DIR"
+mkdir -p "$REPOS_DIR"
 mkdir -p "$STAGING_DIR"
-touch "$NEW_MANIFEST"
+
+: > "$NEW_MANIFEST_FILE"
 
 declare -A SKILL_SOURCES
 
+
+# ============================================================
+# 基础工具
+# ============================================================
+
+log() {
+  printf '%s\n' "$*" >&2
+}
+
+die() {
+  log
+  log "错误：$*"
+  exit 1
+}
+
+validate_skill_name() {
+  local skill_name="$1"
+  if [[ -z "$skill_name" ]]; then
+    die "技能名称不能为空"
+  fi
+  case "$skill_name" in
+    "."|".."|*/*|*\\*)
+      die "不安全的技能目录名称：$skill_name"
+      ;;
+  esac
+}
+
+copy_directory() {
+  local source_dir="$1"
+  local destination_dir="$2"
+
+  if [[ ! -d "$source_dir" ]]; then
+    die "复制来源目录不存在：$source_dir"
+  fi
+
+  rm -rf "$destination_dir"
+  mkdir -p "$destination_dir"
+
+  # 复制普通文件及隐藏文件。
+  cp -a "$source_dir/." "$destination_dir/"
+}
+
 record_skill() {
   local skill_name="$1"
-  local source="$2"
+  local source_description="$2"
+
+  validate_skill_name "$skill_name"
 
   if [[ -n "${SKILL_SOURCES[$skill_name]:-}" ]]; then
-    echo "错误：检测到平铺目录名称冲突：$skill_name"
-    echo "来源一：${SKILL_SOURCES[$skill_name]}"
-    echo "来源二：$source"
+    log
+    log "错误：检测到平铺目录名称冲突：$skill_name"
+    log "来源一：${SKILL_SOURCES[$skill_name]}"
+    log "来源二：$source_description"
     exit 1
   fi
 
-  SKILL_SOURCES["$skill_name"]="$source"
-  printf '%s\n' "$skill_name" >> "$NEW_MANIFEST"
+  SKILL_SOURCES["$skill_name"]="$source_description"
+  printf '%s\n' "$skill_name" >> "$NEW_MANIFEST_FILE"
 }
 
+
+# ============================================================
+# Git sparse checkout
+# ============================================================
+
 clone_sparse() {
-  local name="$1"
+  local clone_name="$1"
   local repository="$2"
   local source_path="$3"
   local branch="${4:-main}"
-  local clone_dir="$TMP_DIR/repos/$name"
+  local clone_dir="$REPOS_DIR/$clone_name"
 
-  echo
-  echo "同步 $repository/$source_path"
+  log
+  log "------------------------------------------------------------"
+  log "仓库：$repository"
+  log "目录：$source_path"
+  log "分支：$branch"
+  log "------------------------------------------------------------"
+
+  rm -rf "$clone_dir"
 
   git clone \
     --quiet \
@@ -56,105 +116,17 @@ clone_sparse() {
   git -C "$clone_dir" sparse-checkout set "$source_path"
 
   if [[ ! -d "$clone_dir/$source_path" ]]; then
-    echo "错误：上游目录不存在："
-    echo "https://github.com/$repository/tree/$branch/$source_path"
-    exit 1
+    die "上游目录不存在：https://github.com/$repository/tree/$branch/$source_path"
   fi
 
+  # stdout 只输出 clone 目录。
   printf '%s\n' "$clone_dir"
 }
 
-# 将一个上游目录作为单个技能，复制到 skills/<skill_name>
-stage_single_skill() {
-  local clone_name="$1"
-  local repository="$2"
-  local source_path="$3"
-  local skill_name="$4"
-  local branch="${5:-main}"
 
-  local clone_dir
-  clone_dir="$(clone_sparse "$clone_name" "$repository" "$source_path" "$branch")"
-
-  record_skill \
-    "$skill_name" \
-    "$repository/$source_path"
-
-  mkdir -p "$STAGING_DIR/$skill_name"
-
-  rsync \
-    --archive \
-    --delete \
-    --exclude='.git/' \
-    "$clone_dir/$source_path/" \
-    "$STAGING_DIR/$skill_name/"
-
-  record_version \
-    "$skill_name" \
-    "$repository" \
-    "$source_path" \
-    "$branch" \
-    "$clone_dir"
-}
-
-# 将上游目录中的每个一级子目录平铺到 skills/
-stage_skill_collection() {
-  local clone_name="$1"
-  local repository="$2"
-  local source_path="$3"
-  local branch="${4:-main}"
-
-  local clone_dir
-  clone_dir="$(clone_sparse "$clone_name" "$repository" "$source_path" "$branch")"
-
-  local source_dir="$clone_dir/$source_path"
-  local found=false
-
-  while IFS= read -r -d '' child_dir; do
-    found=true
-
-    local skill_name
-    skill_name="$(basename "$child_dir")"
-
-    # 忽略隐藏目录
-    if [[ "$skill_name" == .* ]]; then
-      continue
-    fi
-
-    record_skill \
-      "$skill_name" \
-      "$repository/$source_path/$skill_name"
-
-    mkdir -p "$STAGING_DIR/$skill_name"
-
-    rsync \
-      --archive \
-      --delete \
-      --exclude='.git/' \
-      "$child_dir/" \
-      "$STAGING_DIR/$skill_name/"
-
-  done < <(
-    find "$source_dir" \
-      -mindepth 1 \
-      -maxdepth 1 \
-      -type d \
-      -print0 |
-      sort -z
-  )
-
-  if [[ "$found" == false ]]; then
-    echo "错误：集合目录中没有找到一级子目录："
-    echo "$repository/$source_path"
-    exit 1
-  fi
-
-  record_version \
-    "$clone_name" \
-    "$repository" \
-    "$source_path" \
-    "$branch" \
-    "$clone_dir"
-}
+# ============================================================
+# 版本记录
+# ============================================================
 
 record_version() {
   local name="$1"
@@ -162,8 +134,8 @@ record_version() {
   local source_path="$3"
   local branch="$4"
   local clone_dir="$5"
-
   local commit_sha
+
   commit_sha="$(git -C "$clone_dir" rev-parse HEAD)"
 
   printf '| `%s` | `%s` | `%s` | `%s` | [`%s`](https://github.com/%s/commit/%s) |\n' \
@@ -174,12 +146,117 @@ record_version() {
     "${commit_sha:0:12}" \
     "$repository" \
     "$commit_sha" \
-    >> "$VERSIONS_TEMP"
+    >> "$VERSIONS_TEMP_FILE"
 }
 
-VERSIONS_TEMP="$TMP_DIR/UPSTREAM_VERSIONS.md"
 
-cat > "$VERSIONS_TEMP" <<'EOF'
+# ============================================================
+# 单个技能
+# ============================================================
+
+stage_single_skill() {
+  local clone_name="$1"
+  local repository="$2"
+  local source_path="$3"
+  local skill_name="$4"
+  local branch="${5:-main}"
+  local clone_dir
+
+  clone_dir="$(
+    clone_sparse \
+      "$clone_name" \
+      "$repository" \
+      "$source_path" \
+      "$branch"
+  )"
+
+  record_skill \
+    "$skill_name" \
+    "$repository/$source_path"
+
+  copy_directory \
+    "$clone_dir/$source_path" \
+    "$STAGING_DIR/$skill_name"
+
+  record_version \
+    "$skill_name" \
+    "$repository" \
+    "$source_path" \
+    "$branch" \
+    "$clone_dir"
+}
+
+
+# ============================================================
+# 技能集合平铺
+# ============================================================
+
+stage_skill_collection() {
+  local clone_name="$1"
+  local repository="$2"
+  local source_path="$3"
+  local branch="${4:-main}"
+  local clone_dir
+  local source_dir
+  local child_dir
+  local skill_name
+  local skill_count=0
+
+  clone_dir="$(
+    clone_sparse \
+      "$clone_name" \
+      "$repository" \
+      "$source_path" \
+      "$branch"
+  )"
+
+  source_dir="$clone_dir/$source_path"
+
+  while IFS= read -r -d '' child_dir; do
+    skill_name="$(basename "$child_dir")"
+
+    # 忽略隐藏目录。
+    if [[ "$skill_name" == .* ]]; then
+      continue
+    fi
+
+    record_skill \
+      "$skill_name" \
+      "$repository/$source_path/$skill_name"
+
+    copy_directory \
+      "$child_dir" \
+      "$STAGING_DIR/$skill_name"
+
+    skill_count=$((skill_count + 1))
+  done < <(
+    find "$source_dir" \
+      -mindepth 1 \
+      -maxdepth 1 \
+      -type d \
+      -print0
+  )
+
+  if [[ "$skill_count" -eq 0 ]]; then
+    die "集合目录中没有找到一级子目录：$repository/$source_path"
+  fi
+
+  record_version \
+    "$clone_name" \
+    "$repository" \
+    "$source_path" \
+    "$branch" \
+    "$clone_dir"
+
+  log "发现 $skill_count 个一级技能目录。"
+}
+
+
+# ============================================================
+# 初始化版本记录
+# ============================================================
+
+cat > "$VERSIONS_TEMP_FILE" <<'EOF'
 # Upstream versions
 
 该文件由 `scripts/sync-upstream-skills.sh` 自动生成，请勿手动修改。
@@ -188,108 +265,193 @@ cat > "$VERSIONS_TEMP" <<'EOF'
 |---|---|---|---|---|
 EOF
 
-echo "准备上游技能……"
 
-# 1. Agent Browser：整个 skills 目录作为 agent-browser 技能
+# ============================================================
+# 配置上游
+# ============================================================
+
+log "准备上游技能……"
+
+# 1. Agent Browser
 stage_single_skill \
   "agent-browser" \
   "vercel-labs/agent-browser" \
   "skills" \
   "agent-browser"
 
-# 2. Engineering：其一级子目录全部平铺
+# 2. Engineering 集合，平铺一级目录
 stage_skill_collection \
   "engineering" \
   "mattpocock/skills" \
   "skills/engineering"
 
-# 3. Anthropic frontend-design：单个技能
+# 3. Anthropic Frontend Design
 stage_single_skill \
   "frontend-design" \
   "anthropics/skills" \
   "skills/frontend-design" \
   "frontend-design"
 
-# 4. GSAP：skills 下的一级子目录全部平铺
+# 4. GSAP 集合，平铺一级目录
 stage_skill_collection \
   "gsap-skills" \
   "greensock/gsap-skills" \
   "skills"
 
-# 5. React best practices：单个技能
-stage_single_skill \
+# 5、6. Vercel Agent Skills
+#
+# 同一个仓库只克隆一次，并同步两个指定目录。
+VERCEL_AGENT_SKILLS_CLONE="$(
+  clone_sparse \
+    "vercel-agent-skills" \
+    "vercel-labs/agent-skills" \
+    "skills" \
+    "main"
+)"
+
+record_skill \
   "react-best-practices" \
-  "vercel-labs/agent-skills" \
-  "skills/react-best-practices" \
-  "react-best-practices"
+  "vercel-labs/agent-skills/skills/react-best-practices"
 
-# 6. Web design guidelines：单个技能
-stage_single_skill \
+copy_directory \
+  "$VERCEL_AGENT_SKILLS_CLONE/skills/react-best-practices" \
+  "$STAGING_DIR/react-best-practices"
+
+record_skill \
   "web-design-guidelines" \
+  "vercel-labs/agent-skills/skills/web-design-guidelines"
+
+copy_directory \
+  "$VERCEL_AGENT_SKILLS_CLONE/skills/web-design-guidelines" \
+  "$STAGING_DIR/web-design-guidelines"
+
+record_version \
+  "vercel-agent-skills" \
   "vercel-labs/agent-skills" \
-  "skills/web-design-guidelines" \
-  "web-design-guidelines"
+  "skills" \
+  "main" \
+  "$VERCEL_AGENT_SKILLS_CLONE"
 
-sort -u "$NEW_MANIFEST" -o "$NEW_MANIFEST"
 
-echo
-echo "检查目录冲突……"
+# ============================================================
+# 整理 manifest
+# ============================================================
 
-# 检查新增的上游技能是否会覆盖主仓库中的非托管目录。
-while IFS= read -r skill_name; do
-  [[ -n "$skill_name" ]] || continue
+sort -u "$NEW_MANIFEST_FILE" -o "$NEW_MANIFEST_FILE"
 
-  target="$SKILLS_DIR/$skill_name"
-
-  if [[ -e "$target" ]]; then
-    previously_managed=false
-
-    if [[ -f "$MANIFEST" ]] && grep -Fxq "$skill_name" "$MANIFEST"; then
-      previously_managed=true
-    fi
-
-    if [[ "$previously_managed" == false ]]; then
-      echo "错误：上游技能与主仓库已有目录冲突："
-      echo "  $target"
-      echo
-      echo "该目录不在 $MANIFEST 中，因此脚本不会覆盖它。"
-      exit 1
-    fi
-  fi
-done < "$NEW_MANIFEST"
-
-echo "删除上一次同步管理的目录……"
-
-if [[ -f "$MANIFEST" ]]; then
-  while IFS= read -r skill_name; do
-    [[ -n "$skill_name" ]] || continue
-
-    # 安全检查：只允许删除 skills/ 下的一级相对目录。
-    if [[ "$skill_name" == */* || "$skill_name" == "." || "$skill_name" == ".." ]]; then
-      echo "错误：manifest 中存在不安全的路径：$skill_name"
-      exit 1
-    fi
-
-    rm -rf "$SKILLS_DIR/$skill_name"
-  done < "$MANIFEST"
+if [[ ! -s "$NEW_MANIFEST_FILE" ]]; then
+  die "没有发现任何可同步的技能"
 fi
 
-echo "写入新的平铺目录……"
+
+# ============================================================
+# 检查非托管目录冲突
+# ============================================================
+
+log
+log "检查本地目录冲突……"
 
 while IFS= read -r skill_name; do
-  [[ -n "$skill_name" ]] || continue
+  if [[ -z "$skill_name" ]]; then
+    continue
+  fi
 
-  mkdir -p "$SKILLS_DIR/$skill_name"
+  validate_skill_name "$skill_name"
 
-  rsync \
-    --archive \
-    "$STAGING_DIR/$skill_name/" \
-    "$SKILLS_DIR/$skill_name/"
-done < "$NEW_MANIFEST"
+  target_path="$SKILLS_DIR/$skill_name"
 
-cp "$NEW_MANIFEST" "$MANIFEST"
-mv "$VERSIONS_TEMP" "$VERSIONS_FILE"
+  if [[ ! -e "$target_path" ]]; then
+    continue
+  fi
 
-echo
-echo "同步完成。当前托管技能："
-sed 's/^/  - /' "$MANIFEST"
+  # 旧 manifest 中存在，说明目标是脚本上次生成的。
+  if [[ -f "$MANIFEST_FILE" ]]; then
+    if grep -Fxq "$skill_name" "$MANIFEST_FILE"; then
+      continue
+    fi
+  fi
+
+  log
+  log "错误：上游技能与本地非托管目录冲突："
+  log "  $target_path"
+  log
+  log "上游来源：${SKILL_SOURCES[$skill_name]}"
+  log
+  log "为了避免覆盖本地内容，脚本已经停止。"
+  log
+  log "请备份并删除冲突目录后重新执行。"
+  exit 1
+done < "$NEW_MANIFEST_FILE"
+
+
+# ============================================================
+# 清理旧的托管目录
+# ============================================================
+
+log
+log "清理上一次同步管理的目录……"
+
+if [[ -f "$MANIFEST_FILE" ]]; then
+  while IFS= read -r skill_name; do
+    if [[ -z "$skill_name" ]]; then
+      continue
+    fi
+
+    validate_skill_name "$skill_name"
+    rm -rf "$SKILLS_DIR/$skill_name"
+  done < "$MANIFEST_FILE"
+fi
+
+
+# ============================================================
+# 写入新的平铺目录
+# ============================================================
+
+log "写入新的平铺技能目录……"
+
+while IFS= read -r skill_name; do
+  if [[ -z "$skill_name" ]]; then
+    continue
+  fi
+
+  validate_skill_name "$skill_name"
+
+  copy_directory \
+    "$STAGING_DIR/$skill_name" \
+    "$SKILLS_DIR/$skill_name"
+done < "$NEW_MANIFEST_FILE"
+
+
+# ============================================================
+# 保存 manifest 和版本记录
+# ============================================================
+
+cp "$NEW_MANIFEST_FILE" "$MANIFEST_FILE"
+cp "$VERSIONS_TEMP_FILE" "$VERSIONS_FILE"
+
+
+# ============================================================
+# 输出结果
+# ============================================================
+
+skill_total="$(
+  grep -cve '^[[:space:]]*$' "$MANIFEST_FILE" || true
+)"
+
+log
+log "============================================================"
+log "同步完成"
+log "============================================================"
+log
+log "共同步 $skill_total 个技能："
+
+while IFS= read -r skill_name; do
+  if [[ -n "$skill_name" ]]; then
+    log "  - $skill_name"
+  fi
+done < "$MANIFEST_FILE"
+
+log
+log "技能目录：$SKILLS_DIR"
+log "托管清单：$MANIFEST_FILE"
+log "版本记录：$VERSIONS_FILE"
