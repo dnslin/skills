@@ -285,6 +285,14 @@ stage_skill_collection \
   "mattpocock/skills" \
   "skills/engineering"
 
+
+  # Matt Pocock - Productivity 集合
+stage_skill_collection \
+  "mattpocock-productivity" \
+  "mattpocock/skills" \
+  "skills/productivity" \
+  "main"
+
 # 3. Anthropic Frontend Design
 stage_single_skill \
   "frontend-design" \
