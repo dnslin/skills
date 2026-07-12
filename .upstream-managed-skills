@@ -5,6 +5,8 @@ code-review
 diagnosing-bugs
 domain-modeling
 frontend-design
+grilling
+grill-me
 grill-with-docs
 gsap-core
 gsap-frameworks
@@ -14,6 +16,7 @@ gsap-react
 gsap-scrolltrigger
 gsap-timeline
 gsap-utils
+handoff
 implement
 improve-codebase-architecture
 prototype
@@ -22,8 +25,10 @@ research
 resolving-merge-conflicts
 setup-matt-pocock-skills
 tdd
+teach
 to-spec
 to-tickets
 triage
 wayfinder
 web-design-guidelines
+writing-great-skills
