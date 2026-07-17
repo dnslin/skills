@@ -25,7 +25,7 @@ jobs:
                   fetch-depth: 0
 
             - name: Sync upstream skills
-              run: ./scripts/sync-upstream-skills.sh
+              run: bash ./scripts/sync-upstream-skills.sh
 
             - name: Show changes
               run: git status --short
