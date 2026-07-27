@@ -75,6 +75,17 @@ true:
 
 Record every adopted default explicitly.
 
+## Composition
+
+This skill owns interview cadence, frontier selection, prioritisation,
+defaults, and stopping conditions.
+
+When another skill supplies an active discipline, such as
+`/domain-modeling`, keep that discipline active throughout every round.
+
+Do not postpone another skill's required inline actions until the
+completion summary.
+
 ## Round limit
 
 Use at most 2 rounds by default.
@@ -118,9 +129,16 @@ Capabilities or behaviours explicitly excluded.
 
 Important uncertainty that remains but does not block the next phase.
 
-### Documentation updates
+### Documentation status
 
-Terms for `CONTEXT.md` and decisions that may qualify for an ADR.
+List:
+
+- domain terms updated during the session,
+- ADRs created or proposed,
+- documentation work still outstanding.
+
+When no documentation discipline was active, list documentation
+candidates instead of claiming that files were updated.
 
 ### Recommended next action
 
