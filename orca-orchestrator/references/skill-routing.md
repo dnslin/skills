@@ -54,11 +54,13 @@ Orca 的运行协议以**当前安装版本**为准。不要复制固定版本�
 | Go 开发、审查、调试或配置 | `golang-how-to`，再按其路由选择本地 `golang-*` 技能 | 对应 worker |
 | Swift 开发、审查或迁移 | `write-swift` | 对应 worker |
 | 新增 Web / Expo 动效，或审查全项目动效 | `animate`、`animate-expo`、`improve-animations`；GSAP 按具体功能选本地 `gsap-*` 技能 | 动效实施或审查 worker |
+| 需要审查动画或交互动效的代码质量 | `review-animations` | 动效 reviewer |
 | 使用第三方库、SDK 或需要核实技术用法 | `source-driven-development` | 调研或实施 worker |
 | 出现测试失败、回归或异常行为 | `debugging-and-error-recovery` | 诊断或实施 worker |
 | 实现逻辑、修复缺陷或修改行为 | `test-driven-development` | 实施或测试 worker |
 | 需要真实浏览器操作或运行证据 | 从本地浏览器技能的描述和工具要求选择；DevTools 检查可用 `browser-testing-with-devtools` | 验证 worker |
 | 审查代码正确性与可维护性，或简化现有代码 | `code-review-and-quality`、`code-simplification` | reviewer 或实施 worker |
+| 需要严格审查抽象质量、超大文件或分支复杂度 | `thermo-nuclear-code-quality-review` | 代码 reviewer |
 | 涉及认证、权限、外部输入或存储边界 | `security-and-hardening` | 实施或审查 worker |
 | 有性能要求或已发现瓶颈 | `performance-optimization` | 诊断或实施 worker |
 | 需要日志、指标、追踪等运行证据 | `observability-and-instrumentation` | 实施 worker |
@@ -71,7 +73,7 @@ Orca 的运行协议以**当前安装版本**为准。不要复制固定版本�
 
 设计工具、图像、图表、文档等专门任务，继续检索本地及当前启用插件的描述，选择符合产物和工具要求的技能。
 
-本地的 `prototype`、`pick-ui-library`、`review-animations`、`thermo-nuclear-code-quality-review`、`show-me` 标记为仅显式调用。只有用户明确调用相应技能时才启用；其他技能也以其当前调用限制为准。
+本地的 `prototype`、`pick-ui-library`、`show-me` 标记为仅显式调用。只有用户明确调用相应技能时才启用；其他技能也以其当前调用限制为准。
 
 一个任务可用多个 skill，但要有不同职责；一项小改动不应因为存在许多可用技能就被扩充成庞大的流程。技能本身要求的用户确认、检查步骤和产出不能因编排而省略。
 
