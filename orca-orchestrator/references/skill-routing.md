@@ -1,100 +1,100 @@
 # Skill Routing
 
-本文件提供 **Coordinator 的选择规则**，不是一套必须依次运行的工作流。先发现实际安装的 skills、读取其 frontmatter 和运行约束，再决定是否调用。用户要求的 skills 优先；项目已有规则与所选 skill 的自身协议也必须遵守。
+Select skills by task, using installed descriptions, invocation policies, and project rules. User-required skills take priority. This is a routing guide, not a mandatory sequence.
 
-## 从本地发现技能
+## Discover locally
 
-**路由来源是当前执行端实际可用的本地 skills，不是本 GitHub 仓库的目录清单。** 主控和 worker 分别在自己的执行环境中发现技能：
+**Use skills available to the current harness, not this GitHub repository's directory list.** Coordinator and workers discover skills in their own environments:
 
-1. 先使用当前会话公布的技能目录、读取入口和项目约定；`using-agent-skills` 可用时，读取其发现流程。
-2. 需要补充发现时，检查执行端实际配置的共享、用户和项目技能目录。在用户当前机器上，共享目录是 `~/.agents/skills/`，Codex 用户目录是 `~/.codex/skills/`，Claude Code 用户目录是 `~/.claude/skills/`；链接目录按实际指向读取。OMP 的目录从其当前配置或会话中确认。
-3. 系统和插件技能以当前会话启用的清单为准。先看名称、描述和调用限制，再读取匹配任务的正文与必读引用；同名技能使用执行端实际解析的路径，并在派工时提供该入口。
-4. 本地新增、删除或更新技能后，以新发现的内容为准。下表是按用户本地技能整理的任务入口，不是固定白名单；表外技能同样按描述匹配。
+1. Start with session-provided catalogs, read paths, and project conventions. Read `using-agent-skills` when available.
+2. Inspect configured shared, user, and project skill directories as needed. On the user's machine: shared `~/.agents/skills/`, Codex `~/.codex/skills/`, Claude Code `~/.claude/skills/`. Follow directory links. Determine OMP paths from its configuration or session.
+3. Use only currently enabled system/plugin catalogs. Match names, descriptions, and invocation policies before loading relevant bodies and references. Resolve duplicate names through the harness's actual lookup and pass that read path in dispatches.
+4. Rediscovery takes precedence after local additions, removals, or updates. The table below reflects verified local skills; match unlisted skills by description too.
 
-**完成标准：** 为当前任务选出的技能有真实的本地读取入口；尚未在 worker 环境核实的入口明确标记为待核实。
+**Done:** Selected skills have real local read paths; unverified worker paths are marked pending.
 
-## 调用判定
+## Decide invocation
 
-对每个阶段，只回答四个问题：
+For each phase, determine:
 
-1. **触发**：本次任务是否真的属于 skill 描述的工作？
-2. **调用权**：读取 frontmatter、正文和适用的 `agents/openai.yaml`；`disable-model-invocation: true`、`policy.allow_implicit_invocation: false` 或明确的仅显式调用说明，都要求用户显式调用。
-3. **承担者**：主控、实施 worker、诊断 worker、审查 worker，哪个会话需要它？
-4. **可执行**：该会话能否读取正文及引用、访问所需命令与服务？
+1. **Trigger:** Does the task match the skill's description?
+2. **Permission:** Check frontmatter, body, and applicable `agents/openai.yaml`. `disable-model-invocation: true`, `policy.allow_implicit_invocation: false`, or an explicit-only instruction requires user invocation.
+3. **Owner:** Which session needs it: Coordinator, implementer, diagnostician, or reviewer?
+4. **Capability:** Can that session read the body/references and access required tools/services?
 
-只有该会话**实际读取并应用**技能要求，才能记录 `applied`。只在主控加载过或在派工说明中提及，记录为 `planned`；缺少正文/工具则标记 `unavailable` 或 `blocked`，不要冒充完成。
+Record `applied` only when that session actually reads and applies the skill. Coordinator-only loading or dispatch mentions remain `planned`; missing text/tools are `unavailable` or `blocked`.
 
-## Orca 的必经入口
+## Orca entry points
 
-| 情况 | 入口 | 责任与条件 |
+| Task | Entry | Owner / condition |
 | --- | --- | --- |
-| 需要 Orca 的 Run / Task / Dispatch 监督编排 | Orca 自带 `orchestration` skill，随后读取 `skills get orchestration` 返回的版本指南 | Coordinator；先确认 CLI 和运行时 |
-| 已收到有效 worker Task / Dispatch 前言 | Orca 注入的 worker 协议 | Worker；按前言处理，不另起 Run |
-| 仅移交工作而不监督 | Orca 的 `orca-cli` / handoff 指引 | 当前所有者；不创建无意义的监督循环 |
+| Supervised Run / Task / Dispatch coordination | Orca's `orchestration` skill, then the version guide returned by `skills get orchestration` | Coordinator; verify CLI/runtime |
+| Valid worker Task / Dispatch preamble | Orca-injected worker protocol | Worker; follow it without creating another Run |
+| Ownership transfer without supervision | Orca's `orca-cli` / handoff guidance | Current owner; no supervision loop |
 
-Orca 的运行协议以**当前安装版本**为准。不要复制固定版本的命令表到本 skill。
+Use the installed Orca version's protocol; keep version-specific command manuals outside this skill.
 
-## 按本地技能匹配任务
+## Match local skills to tasks
 
-以下入口已在用户本机技能目录中核实。执行时仍需读取当前版本的描述和限制；同一行的多个名称分别解决不同问题，按任务选择。
+These entries were verified locally. Read their current descriptions and restrictions before use. Multiple skills in a row serve different concerns; select those relevant to the task.
 
-| 触发条件 | 本地技能入口 | 责任会话 |
+| Trigger | Local skill entry | Owner |
 | --- | --- | --- |
-| 缺少会影响交付的目标、约束或取舍 | `interview-me`；需要探索方案时用 `idea-refine` | 主控 |
-| 非平凡变更缺少行为约定或验收条件 | `spec-driven-development` | 主控 |
-| 需要拆解任务、依赖和并行修改边界 | `planning-and-task-breakdown` | 主控 |
-| 需要配置项目上下文或明确质量门槛 | `context-engineering`、`constraint-driven-development` | 主控或配置 worker |
-| 实施跨文件或多个增量的变更 | `incremental-implementation` | 实施 worker |
-| 设计 API、模块接口或请求响应契约 | `api-and-interface-design` | 设计或实施 worker |
-| 实现前端界面、布局、状态和可访问性 | `frontend-ui-engineering`；视觉方向按任务选 `frontend-design` 或 `ui-design-guided` | UI worker |
-| 改进信息层级、命名和交互表达 | `design-with-clarity` | 设计或审查 worker |
-| 只读审查现有 UI 并形成改进计划 | `improve-ui`；规范符合性检查用 `web-design-guidelines` | UI reviewer |
-| 需要检索现有 UI 组件、动画或效果 | `ui-search` | UI 调研或实施 worker |
-| 编写或审查 React / Next.js | `vercel-react-best-practices` | 实施或审查 worker |
-| Go 开发、审查、调试或配置 | `golang-how-to`，再按其路由选择本地 `golang-*` 技能 | 对应 worker |
-| Swift 开发、审查或迁移 | `write-swift` | 对应 worker |
-| 新增 Web / Expo 动效，或审查全项目动效 | `animate`、`animate-expo`、`improve-animations`；GSAP 按具体功能选本地 `gsap-*` 技能 | 动效实施或审查 worker |
-| 需要审查动画或交互动效的代码质量 | `review-animations` | 动效 reviewer |
-| 使用第三方库、SDK 或需要核实技术用法 | `source-driven-development` | 调研或实施 worker |
-| 出现测试失败、回归或异常行为 | `debugging-and-error-recovery` | 诊断或实施 worker |
-| 实现逻辑、修复缺陷或修改行为 | `test-driven-development` | 实施或测试 worker |
-| 需要真实浏览器操作或运行证据 | 从本地浏览器技能的描述和工具要求选择；DevTools 检查可用 `browser-testing-with-devtools` | 验证 worker |
-| 审查代码正确性与可维护性，或简化现有代码 | `code-review-and-quality`、`code-simplification` | reviewer 或实施 worker |
-| 需要严格审查抽象质量、超大文件或分支复杂度 | `thermo-nuclear-code-quality-review` | 代码 reviewer |
-| 涉及认证、权限、外部输入或存储边界 | `security-and-hardening` | 实施或审查 worker |
-| 有性能要求或已发现瓶颈 | `performance-optimization` | 诊断或实施 worker |
-| 需要日志、指标、追踪等运行证据 | `observability-and-instrumentation` | 实施 worker |
-| 提交、分支或处理 Git 变更 | `git-workflow-and-versioning` | 持有变更的会话 |
-| 修改构建和部署流水线 | `ci-cd-and-automation` | 配置 worker |
-| 迁移或废弃既有接口与数据结构 | `deprecation-and-migration` | 设计或实施 worker |
-| 记录公共接口、架构决策或交付文档 | `documentation-and-adrs` | 对应 worker |
-| 创建或修改 skill、`AGENTS.md`、`CLAUDE.md` | `writing-for-agents`；技能创建与校验用当前执行端的 `skill-creator` | 指令编写 worker |
-| 已获授权的上线准备或发布 | `shipping-and-launch` | 主控或发布 worker |
+| Missing goals, constraints, or tradeoffs affecting delivery | `interview-me`; explore alternatives with `idea-refine` | Coordinator |
+| Nontrivial change lacks behavior or acceptance criteria | `spec-driven-development` | Coordinator |
+| Task breakdown, dependencies, or parallel ownership | `planning-and-task-breakdown` | Coordinator |
+| Project context or quality thresholds | `context-engineering`, `constraint-driven-development` | Coordinator / configuration worker |
+| Implementation across files or increments | `incremental-implementation` | Implementer |
+| API, module interface, or request/response contracts | `api-and-interface-design` | Designer / implementer |
+| Frontend layout, state, or accessibility | `frontend-ui-engineering`; visual direction via `frontend-design` or `ui-design-guided` | UI worker |
+| Information hierarchy, naming, or interaction clarity | `design-with-clarity` | Designer / reviewer |
+| Read-only UI audit and improvement plan | `improve-ui`; guideline compliance via `web-design-guidelines` | UI reviewer |
+| Find existing UI components, animations, or effects | `ui-search` | UI researcher / implementer |
+| React / Next.js implementation or review | `vercel-react-best-practices` | Implementer / reviewer |
+| Go development, review, debugging, or setup | `golang-how-to`, then its relevant local `golang-*` skills | Assigned worker |
+| Swift development, review, or migration | `write-swift` | Assigned worker |
+| Web / Expo motion implementation or whole-project motion audit | `animate`, `animate-expo`, `improve-animations`; relevant local `gsap-*` skills for GSAP | Motion implementer / reviewer |
+| Animation or interaction-motion code review | `review-animations` | Motion reviewer |
+| Third-party libraries, SDKs, or technical usage verification | `source-driven-development` | Researcher / implementer |
+| Failing tests, regressions, or unexpected behavior | `debugging-and-error-recovery` | Diagnostician / implementer |
+| Logic implementation, bug fixes, or behavior changes | `test-driven-development` | Implementer / tester |
+| Real browser interaction or runtime evidence | Match local browser skills to tool requirements; `browser-testing-with-devtools` for DevTools checks | Verifier |
+| Correctness/maintainability review or code simplification | `code-review-and-quality`, `code-simplification` | Reviewer / implementer |
+| Strict review of abstractions, oversized files, or branching complexity | `thermo-nuclear-code-quality-review` | Code reviewer |
+| Authentication, permissions, external input, or storage boundaries | `security-and-hardening` | Implementer / reviewer |
+| Performance requirements or identified bottlenecks | `performance-optimization` | Diagnostician / implementer |
+| Logs, metrics, traces, or runtime observability | `observability-and-instrumentation` | Implementer |
+| Commits, branches, or Git changes | `git-workflow-and-versioning` | Change owner |
+| Build or deployment pipelines | `ci-cd-and-automation` | Configuration worker |
+| Migrating or deprecating interfaces/data structures | `deprecation-and-migration` | Designer / implementer |
+| Public interfaces, architecture decisions, or delivery documentation | `documentation-and-adrs` | Assigned worker |
+| Skills, `AGENTS.md`, or `CLAUDE.md` authoring | `writing-for-agents`; harness-resolved `skill-creator` for creation/validation | Instruction author |
+| Authorized launch preparation or release | `shipping-and-launch` | Coordinator / release worker |
 
-设计工具、图像、图表、文档等专门任务，继续检索本地及当前启用插件的描述，选择符合产物和工具要求的技能。
+For design tools, images, diagrams, documents, and other specialized outputs, match local and enabled-plugin descriptions to the deliverable and available tools.
 
-本地的 `prototype`、`pick-ui-library`、`show-me` 标记为仅显式调用。只有用户明确调用相应技能时才启用；其他技能也以其当前调用限制为准。
+Local `prototype`, `pick-ui-library`, and `show-me` remain explicit-only. Invoke them only when the user explicitly calls them; check current policies for all other skills too.
 
-一个任务可用多个 skill，但要有不同职责；一项小改动不应因为存在许多可用技能就被扩充成庞大的流程。技能本身要求的用户确认、检查步骤和产出不能因编排而省略。
+Combine skills only for distinct responsibilities. Keep small tasks small while honoring each skill's required approvals, checks, and outputs.
 
-## 跨 CLI 交接
+## Cross-CLI handoff
 
-主控与 worker 可能运行于 Claude Code、Codex、OMP 不同的会话、工作区乃至主机上。
+Coordinator and workers may use different Claude Code, Codex, or OMP sessions, workspaces, or hosts.
 
-1. **首先就地读取：** worker 从自己的可用技能目录读取相应的 `SKILL.md` 和必读引用，并报告已应用。
-2. **无法就地读取：** 主控仅在有权限且实际可达时，把完整必需内容和来源传到 worker 可读取的位置，或将具体文本纳入独立任务资料。
-3. **单独核实工具：** 技能正文的传递不能替代 MCP、浏览器、网络访问、文件读写权限或认证凭据。
-4. **阻塞策略：** 用户显式要求、项目规则规定、或完成任务不可替代的必需技能不可用时，停止受影响任务并说明缺失；其他可选技能不可用时采用基本方法并如实说明。
+1. **Read locally first:** Workers read required `SKILL.md` files and references from their own accessible directories, then report application.
+2. **Share when needed:** If local access is missing, pass authorized full required content and sources through reachable files or self-contained task instructions.
+3. **Verify tools separately:** Text transfer does not provide MCP, browsers, network, filesystem permissions, or credentials.
+4. **Handle absence:** Block affected tasks when an explicit user requirement, project rule, or indispensable capability cannot be met. For optional skills, use an appropriate basic method and report non-use.
 
-worker 的 handoff 包含下面四项即可，无需转述整个技能全文：
+Worker handoffs need only:
 
 ```text
-Skills applied:  已实际读取与应用的技能及其来源
-Skills skipped:  计划但未使用的技能及理由
-Tools verified:  必要工具/环境的实际检查结果
-Evidence:        与验收要求对应的命令、产物及结果
+Skills applied:  Skills actually read/applied, with sources
+Skills skipped:  Planned but unused skills, with reasons
+Tools verified:  Actual capability/environment checks
+Evidence:        Commands, artifacts, results matching acceptance criteria
 ```
 
-## 适度调用检查
+## Recheck proportionately
 
-派工前检查一次选用理由；worker 完成时检查实际应用记录。**同一阶段已加载且未发生任务条件变化的 skill 不必反复读取。** 只有新任务、新领域或执行环境变化才重新进行路由。
+Check selection reasons before dispatch and actual application at completion. Reuse skills already loaded in the same phase unless task conditions change. Reroute for new tasks, domains, or environments.

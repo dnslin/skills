@@ -10,70 +10,70 @@ description: >-
 
 # Orca Orchestrator
 
-在 Orca 中担任 **Coordinator**：明确目标，选择执行端和模型，分派独立任务，监督结果并作出验收决策。Claude Code、Codex、OMP 都可以担任主控或 worker；**角色、执行端和模型是三个独立选择**。
+Act as Orca **Coordinator**: define goals, select execution settings, delegate, supervise, and accept results. Claude Code, Codex, and OMP can each coordinate or execute; **role, harness, and model are separate choices**.
 
-## 1. 确认身份并读取运行协议
+## 1. Establish role and protocol
 
-1. 如果当前会话已收到 Orca 注入的有效 Task / Dispatch 前言，则你是 **worker**。按该前言执行、提问、回报，不另建 Run 或取代主控。
-2. 如果用户仅要求移交工作所有权，不要求监督、等待或验收，按 Orca 的普通 handoff 指引办理。
-3. 需要监督编排时，先定位本机 Orca CLI，读取 Orca 自带的 `orchestration` skill，再用**同一可执行文件**运行 `skills get orchestration`，遵循返回的版本匹配指南。复杂分支按指南加载指定 reference。
-4. 核实 Orca 实际可用及当前会话的权限。若缺少运行时或必需能力，报告具体阻塞；不要用其他 subagent、后台脚本或猜测的命令假装完成 Orca 编排。
+1. A valid Orca Task / Dispatch preamble makes this session a **worker**. Follow its execution, question, and reporting protocol; do not create another Run or replace the Coordinator.
+2. For ownership transfer without supervision, waiting, or acceptance, use Orca's ordinary handoff guidance.
+3. For supervised work, locate the local Orca CLI, read its `orchestration` skill, then run `skills get orchestration` through **that same executable**. Follow the returned version-specific guide and load branch-specific references as directed.
+4. Verify runtime availability and session permissions. Report missing capabilities as blockers; other subagents, background scripts, or guessed commands do not establish Orca execution.
 
-**完成标准：** 已判定当前角色，且执行路径与当前 Orca 的真实能力一致。
+**Done:** Role is established and execution matches the installed Orca capabilities.
 
-## 2. 发现并主动调用所需 skills
+## 2. Discover and apply skills
 
-在规划前检查当前执行端实际可读取的 skills，以及仓库的 `AGENTS.md`、`CLAUDE.md` 和已有约定。读取 [references/skill-routing.md](references/skill-routing.md)，按**任务触发条件**选择技能，而不是按固定清单全部加载。
+Before planning, inspect the harness's accessible skills, repository `AGENTS.md` / `CLAUDE.md`, and existing conventions. Read [references/skill-routing.md](references/skill-routing.md) and select skills by **task triggers**, loading only relevant ones.
 
-- 如果某个可自动调用的 skill 与当前阶段匹配，由该阶段的**责任会话实际读取并应用**。只是提到技能名、主控读过、或在任务里写“请遵循”都不等于 worker 已应用。
-- 遵守每个 skill 的调用限制。标记为 `disable-model-invocation: true` 的技能，只有用户显式调用时才启用。
-- 对 worker 必需的 skill，先确认它能访问完整正文、必读引用和所需工具。不能访问时，提供有权限分享的材料与来源，或将该任务标记为阻塞。**传递文本不代表提供了浏览器、MCP、凭据等工具能力。**
-- 普通补充 skill 不可用时，采用适合任务的基本做法并如实记录；不得伪称调用成功。
+- The **session responsible for each phase must read and apply** matching, automatically invocable skills. Naming a skill, loading it only in the Coordinator, or mentioning it in a dispatch does not establish worker application.
+- Respect invocation restrictions: `disable-model-invocation: true` requires explicit user invocation. Check other applicable policies through the routing guide.
+- Verify that workers can access required skill bodies, references, and tools. Share authorized materials with sources or block the affected task. **Sharing text does not supply browsers, MCP services, or credentials.**
+- If an optional skill is unavailable, use an appropriate basic method and report it as unused.
 
-**完成标准：** 每个必要技能都有触发理由、责任会话、可读取入口及可用性结论；用户指定的必需技能不会被静默跳过。
+**Done:** Each required skill has a trigger, owner, readable entry point, and availability status; user-required skills are accounted for.
 
-## 3. 明确任务与选择执行配置
+## 3. Scope work and select execution
 
-先确认目标、已有项目状态、约束和可观察的成功条件。用最少的任务数组织工作：紧密耦合的修改放在一个任务里；仅在修改责任清楚、可独立验收时并行。
+Establish goals, project state, constraints, and observable acceptance criteria. Use the fewest tasks needed: keep coupled changes together; parallelize only independently verifiable work with clear ownership.
 
-从真实可用的 **(agent harness, model, effort)** 组合中选择 worker：
+Choose workers from available **(agent harness, model, effort)** combinations:
 
-- 边界清晰、验收可运行：优先已验证能胜任且成本较低的组合。
-- 存在架构权衡、复杂诊断或明确的能力不足证据：选更强的组合，或先缩小问题。
-- 认证、限流、工具缺失与提示不完整：先修复相应问题，不直接解释为模型能力不足。
+- Clear scope and runnable acceptance: prefer a proven, lower-cost combination.
+- Architectural tradeoffs, complex diagnosis, or demonstrated capability gaps: strengthen execution or narrow the problem.
+- Authentication, rate limits, missing tools, or incomplete prompts: fix the actual cause before blaming model capability.
 
-查询每个执行端实际支持的模型及启动参数；以当前 Orca 指南为准传递选择。**请求模型 ≠ 证实模型已生效**。若无法核实，明确记录为未知。尊重用户指定的模型、预算、审批和执行端限制。
+Check supported models and launch options; pass selections per the current Orca guide. **A requested model is not a verified active model**; record unknowns. Respect user model, budget, approval, and harness constraints.
 
-**完成标准：** 每个任务都有明确的 owner、工作区、目标、验收方式和经核实的执行配置；不可验证的假设被标出。
+**Done:** Every task has an owner, workspace, goal, acceptance method, and verified execution settings or explicit unknowns.
 
-## 4. 派工并监督
+## 4. Dispatch and supervise
 
-使用 Orca 当前版本的正常 supervised worker 流程。每份任务说明独立完整，至少包含以下字段：
+Use the installed Orca supervised-worker workflow. Each dispatch must stand alone and include:
 
 ```text
-Target:       要处理的文件、组件或环境
-Change:       必须交付的可见行为或产物
-Constraints:  兼容性、安全边界、不可破坏的既有行为
-Ownership:    可修改的路径、工作区/分支、与其他任务的边界
-Acceptance:   具体检查方式、期望结果和证据
-Skills:       必需/可选技能、worker 可访问的位置、所需工具
-Handoff:      修改内容、实际验证、剩余问题与证据位置
+Target:       Files, components, or environment
+Change:       Required observable behavior or artifact
+Constraints:  Required compatibility, security boundaries, preserved behavior
+Ownership:    Writable paths, workspace/branch, boundaries with other tasks
+Acceptance:   Checks, expected results, evidence
+Skills:       Required/optional skills, accessible entry points, tools
+Handoff:      Changes, actual checks, remaining issues, evidence locations
 ```
 
-worker 无法天然读取主控的聊天历史，也未必能看到其他 worktree 中尚未提交的文件。任务资料应使用 worker 确实可访问的路径、提交或摘要；保留用户已有的未提交改动。默认从一个实施 worker 开始，并行任务使用明确隔离的修改边界；worker 不自行派生子 worker，除非主控显式授权。
+Workers may lack Coordinator history and other worktrees' uncommitted files. Provide accessible paths, commits, or summaries; preserve user changes. Start with one implementation worker by default. Give parallel workers separate modification boundaries; nested workers require explicit Coordinator authorization.
 
-按 Orca 的消息/等待机制处理问题与 `worker_done`。超时、收不到消息、终端看似空闲，都不足以证明进程已退出。只有符合版本指南的积极证据才能执行停止、重试、遗弃或释放。
+Handle questions and `worker_done` through Orca messaging/waits. Before stopping, retrying, abandoning, or releasing, require positive evidence under the version guide. Timeouts, silence, and idle terminals do not prove exit.
 
-**完成标准：** 每个 Dispatch 的状态有 Orca 记录支持；每项产物可追踪到对应任务和执行者。
+**Done:** Orca records support each Dispatch state; artifacts identify their task and worker.
 
-## 5. 验收、返工与收尾
+## 5. Accept, repair, and close
 
-根据任务合同检查真实 diff/产物、测试命令、输出和未覆盖项。worker 的完成声明是**报告**，不是需求已满足的证据。必要时采用独立的审查会话：重点用于跨模块变更、权限与安全边界、不可运行的验收条件或存在正确性疑问的结果。审查期间保持被审查候选版本稳定。
+Check actual diffs/artifacts, test commands, outputs, and coverage gaps against the task contract. Worker completion is a **report**, not acceptance evidence. Use independent review when warranted by cross-module changes, permission/security boundaries, non-runnable acceptance, or correctness doubts. Keep the review candidate stable.
 
-发现可定位的合同内错误，先要求一次有针对性的修复并复核；再次失败则重新规划、拆分或升级执行配置，而不是重复相同提示。涉及范围或架构变化、危险操作、权限升级、发布或合并时遵循用户授权。
+For a localized in-scope defect, request one targeted repair and verify it. On another failure, replan, split, or strengthen execution. Follow user authorization for scope/architecture changes, dangerous actions, privilege escalation, releases, and merges.
 
-根据版本匹配的 Orca 指南完成消息确认、worker 的保留/复用/释放和未结任务核对。不要把释放当成取消，也不因缺少消息就启动重复编辑者。
+Follow the version guide for acknowledgments, worker retention/reuse/release, and outstanding-task checks. Release is not cancellation; missing messages do not justify duplicate editors.
 
-向用户简要报告：任务与结果、实际使用的执行端及可核实模型、真正应用的 skills、改动/产物、验证证据、未解决问题；只有获取到真实数据时才报告费用或节省比例。
+Report results, actual harnesses and verified models, applied skills, changes/artifacts, checks, and unresolved issues. Report costs or savings only from real data.
 
-**完成标准：** 全部在范围内的任务有明确结论与证据，异常和剩余工作可追踪，Orca 资源按当前协议完成处置。
+**Done:** All in-scope tasks have conclusions and evidence; exceptions remain traceable; Orca resources are handled per protocol.
