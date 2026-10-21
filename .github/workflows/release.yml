@@ -20,20 +20,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Package all skills
+      - name: Package Orca Orchestrator
         run: |
           mkdir -p dist
-          for skill_dir in */; do
-            skill_name="${skill_dir%/}"
-            if [ -f "$skill_dir/SKILL.md" ]; then
-              echo "Packaging: $skill_name"
-              cd skill-creator
-              python -m scripts.package_skill "../$skill_dir" ../dist || echo "Warning: Failed to package $skill_name"
-              cd ..
-            fi
-          done
-          echo "Packaged files:"
-          ls -la dist/
+          python -m zipfile -c dist/orca-orchestrator.skill orca-orchestrator
+          python -m zipfile -t dist/orca-orchestrator.skill
 
       - name: Create source archive
         run: |

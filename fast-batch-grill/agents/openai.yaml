@@ -1,6 +1,0 @@
-interface:
-  display_name: "Fast Grill"
-  short_description: "Resolve high-impact decisions in batches"
-
-policy:
-  allow_implicit_invocation: false
