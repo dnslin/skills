@@ -26,6 +26,11 @@ jobs:
           python -m zipfile -c dist/orca-orchestrator.skill orca-orchestrator
           python -m zipfile -t dist/orca-orchestrator.skill
 
+      - name: Package Design with Clarity
+        run: |
+          python -m zipfile -c dist/design-with-clarity.skill design-with-clarity
+          python -m zipfile -t dist/design-with-clarity.skill
+
       - name: Create source archive
         run: |
           tar --exclude='.git' --exclude='dist' --exclude='.github' -czf dist/skills-source-${{ github.ref_name }}.tar.gz .
