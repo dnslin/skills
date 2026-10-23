@@ -13,4 +13,4 @@ Agent Skill 集合。每个 skill 都在独立目录中，通过目录内的 `SK
 npx skills add dnslin/skills --skill design-with-clarity
 ```
 
-各 skill 的参考资料、具体用法见对应目录的 README 和 SKILL.md。
+具体用法见各自的 `SKILL.md`；补充资料（如有）见 `references/`。
