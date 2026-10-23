@@ -15,7 +15,7 @@ User scope and project constraints take precedence over generic skill suggestion
 
 The session doing the work must read and apply the selected skill and relevant references. Coordinator-only reading or a name in the brief does not establish worker application.
 
-Prefer locally accessible sources. If needed, share authorized required content with its source through accessible files or task instructions. Verify necessary tools separately: transferred text does not provide browsers, MCP services, credentials, or filesystem access.
+Name required skills in the spec's `Skills:` line by name or entry-point path. If the worker cannot reach a skill, copy the authorized content into the run folder's `context/` and pass that path; do not paste skill text into the spec. Verify necessary tools separately: transferred text does not provide browsers, MCP services, credentials, or filesystem access.
 
 When a required skill or indispensable capability is unavailable, resolve access or report the affected task as blocked. For an optional skill, use a suitable basic method and disclose non-use when it affects delivery.
 

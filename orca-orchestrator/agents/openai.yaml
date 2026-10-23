@@ -1,4 +1,4 @@
 interface:
   display_name: "Orca Orchestrator"
-  short_description: "Supervise Claude Code, Codex and OMP workers"
-  default_prompt: "Use $orca-orchestrator to coordinate this coding task through Orca, select task-specific skills, delegate bounded work, and verify results."
+  short_description: "Coordinate Claude Code, Codex and OMP workers through Orca with file-based context passing"
+  default_prompt: "Use $orca-orchestrator to coordinate this coding task through Orca: dispatch all code changes to workers, pass context through the run folder, and accept results by evidence."
