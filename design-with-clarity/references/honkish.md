@@ -1,39 +1,39 @@
-# Honkish：围绕体验发展交互
+# Honkish: grow interaction from an experience
 
-Benji Taylor 的 [Honkish](https://benji.org/honkish)回顾一款强调实时在场与玩乐的聊天产品。下面是从案例发展出的原创设计推导；原产品的机制不必随之迁移。
+Benji Taylor's [Honkish](https://benji.org/honkish) reviews a chat product built around real-time presence and play. What follows is original design reasoning developed from the case; the original product's mechanics need not be copied.
 
-## 先选一种值得被感受到的关系
+## First pick a relationship worth feeling
 
-Honk 的头像状态和聊天区域随参与变化；回应出现在触点附近；自定义反应可当场试用。它把人与人的互动变成可见事件。
+Honk's avatar states and chat area change with participation; responses appear near the point of touch; custom reactions can be tried on the spot. It turns interaction between people into visible events.
 
-迁移时，先补完一句话：**这个动作应让人感到“____”。** 比如，拖动照片到另一组，应感到归属正在改变；协作批注应感到有人正在回应这段内容。再决定触发对象、变化位置和结束状态，让表现从关系中长出来。
+When transferring, first complete the sentence: **this action should make people feel "____".** For example, dragging a photo into another group should feel like its belonging is changing; collaborative annotation should feel like someone is responding to this passage. Then decide the trigger object, where the change happens, and the end state, so the expression grows from the relationship.
 
-如果只能说“加一点活泼动画”，先回到动作本身。可以追求好玩，但要选出具体怎么玩、谁发起、谁收到回应。
+If all you can say is "add some lively animation", go back to the action. Playfulness is a valid goal, but choose concretely how it plays, who initiates, and who receives the response.
 
-## 让反馈有位置，也有连续性
+## Give feedback a place and continuity
 
-给已有操作设计一条可见的因果链。例如，照片被拖起时保留来源位置，接近分组时让目标有所回应，放下后在新归属处安定。位置变化与操作含义一起被感知。
+Design a visible chain of cause and effect for existing actions. Example: a lifted photo keeps a trace of its origin, the target group responds as it approaches, and it settles into its new place when dropped. Position change and meaning are perceived together.
 
-先做触发前、变化中、结束后的状态，再选择运动方式。连续拖动或撤回时，画面应接续当前动作。此处是工程应用推导，不是从演示视频测得的实现算法。
+Design the before, during, and after states first, then choose the motion. During continuous dragging or undo, the visuals should continue from the current action. This is engineering reasoning, not an implementation algorithm measured from the demo videos.
 
-## 把选择做成可以体验的东西
+## Make choices something you can experience
 
-设计声音、主题、反应或笔刷等表达性选项时，让人就地试用实际结果。例：选择画笔时在小画布留下笔迹，保留参数与预览的对应；选择反馈样式时，在同一对象上触发一次。
+When designing expressive options such as sounds, themes, reactions, or brushes, let people try the real result in place. Example: choosing a brush leaves a stroke on a small canvas, keeping parameters and preview in sync; choosing a feedback style triggers it once on the same object.
 
-预览应帮助形成偏好，并能明确区分尝试和保存。先让一个选项真正可体验，再考虑增加多少选项。
+Previews should help people form a preference and clearly separate trying from saving. Make one option truly experienceable before deciding how many options to add.
 
-## 用不同节奏区分不同的时刻
+## Use different rhythms for different moments
 
-原文把即时聊天与探索中的铺垫并置，也展示签名前的停顿。它说明体验可以有节奏差异；作者对行为改善的描述不能当作已验证的普遍效果。
+The article sets instant chat beside build-up during exploration, and shows a pause before signing. It shows experiences can vary in rhythm; the author's claims about behavioral improvement are not a verified general effect.
 
-迁移时区分两个问题：用户此刻想快速完成，还是期待发现？重复编辑适合直接响应；随机选书的揭晓可以短暂铺垫，结果应在同一个动作中出现。若涉及额外判断或等待，明确它给这个时刻带来的体验价值。
+When transferring, separate two questions: does the user want to finish fast right now, or are they expecting discovery? Repeated editing calls for direct response; revealing a random book pick can have a short build-up, with the result arriving within the same action. If extra judgment or waiting is involved, state what experiential value it adds to that moment.
 
-## 让一个特征贯穿互动
+## Let one trait run through the interaction
 
-Honk 的评分面孔和自定义字体，使品牌参与了操作与表达。
+Honk's rating faces and custom typeface bring the brand into operation and expression.
 
-原创迁移例：一款集邮产品可以让收藏动作像把邮票轻放进册页；详情的编号与册页排版呼应，完成反馈仍发生在这枚邮票上。相同的视觉语言贯穿产品，常用检索继续保持直接。品牌由几处相互支持的决定形成，无需每次点击都表演。
+Original example: in a stamp-collecting product, saving can feel like gently placing a stamp onto an album page; the detail view's numbering echoes the album layout, and completion feedback still happens on that stamp. The same visual language runs through the product while frequent search stays direct. A brand is formed by a few mutually supporting decisions; not every click needs to perform.
 
-为当前任务做出一个可操作的代表性片段。体验目标若是亲近或惊喜，就观察回应与参与感；效率目标则观察完成路径。两种目标都需要具体作品支持。
+Build one operable representative piece for the current task. If the experience goal is closeness or surprise, observe response and engagement; if it is efficiency, observe the completion path. Both goals need concrete work to support them.
 
-已读取文章全文，并取样查看 16 段演示的 128 帧。具体视频与研究边界见 [来源记录](sources.md#honkish)。录屏不能替代原应用手感、声音与触觉的体验。
+The full article was read, and 128 frames sampled from 16 demo clips were viewed. Specific videos and research limits are in [sources](sources.md#honkish). Recordings cannot replace the original app's feel, sound, and haptics.

@@ -1,70 +1,93 @@
 {
-  "purpose": "行为评估；按结果判断，不匹配固定措辞。HTML产物在临时目录生成，不进入技能。",
+  "purpose": "Behavior evals: judge by outcome, not fixed wording. Prompts stay in Chinese because target users write in Chinese. HTML outputs are generated in a temp directory and are not part of the skill.",
   "cases": [
     {
       "id": "auction_focus",
       "prompt": "用这个skill为同一件公益拍卖品提出两版具体首屏方案。资料：艺术家许宁的丝网版画《雨停以后》，限量第07/50号，尺寸40×60cm，起拍价800元，11月9日20:00截拍，所得用于社区儿童艺术课堂。A面向熟悉艺术家的收藏者，B面向首次参加的社区居民。请给两版可直接实现的构图及内容顺序。",
       "criteria": [
-        "两版的主导和组合关系确实不同，不能只换颜色",
-        "价格、截止时间和参与动作在两版仍可辨认",
-        "说明焦点与受众的联系，不能只列设计原则",
-        "不编造作品投资收益或公益效果数据"
+        "The two versions genuinely differ in lead and grouping, not just color",
+        "Price, deadline, and the participation action stay identifiable in both",
+        "Explains the link between focus and audience rather than listing design principles",
+        "Does not invent investment returns or charity-impact figures"
       ]
     },
     {
       "id": "dense_dispatch",
       "prompt": "调度员每小时在一个表格里比较40台设备的编号、位置、当前负载、距下次维护小时数。现有14px正文和蓝色品牌需要保留。现在各列不齐，最右边三个图标按钮无标签。请用这个skill给具体改稿，用户说希望更高级。当前只允许视觉与文案调整，不加功能。",
       "criteria": [
-        "维持跨行比较能力与已定字号品牌",
-        "处理数值对齐和动作辨识且不臆造三个按钮的功能",
-        "不会自动改大卡片或强制Radix/12px/0.5px"
+        "Keeps cross-row comparison and the fixed type size and brand color",
+        "Handles numeric alignment and action recognizability without inventing what the three buttons do",
+        "Does not switch to large cards or force Radix/12px/0.5px"
       ]
     },
     {
       "id": "ticket_ritual",
       "prompt": "用这个skill做一个可运行的单文件HTML音乐节电子票。资料：回声现场；2026年11月7日19:30；城北剧场；B区12排08座；订单ECHO-382。现有动作仅查看入场码、切换背面交通信息，交通为地铁2号线剧场站A口步行400米。希望有撕票纸张的个性和拿到票的满足感，但入场时需快速找到码。演示码必须明确标为不可入场的样例。请直接做页面与交互，避免外部依赖。",
       "criteria": [
-        "票的识别与入场信息易找，个性与票的结构相连",
-        "互动实际可用且不引入签到/付费等新功能",
-        "高频查看码保持直接，体验性互动有具体动作",
-        "不只交付计划或通用清单"
+        "Ticket identity and entry info are easy to find; personality is tied to the ticket's structure",
+        "Interactions actually work and add no new features such as check-in or payment",
+        "Frequent code viewing stays direct; the experiential interaction has a concrete action",
+        "Delivers more than a plan or generic checklist"
       ]
     },
     {
       "id": "tooltip_prompt",
       "prompt": "用这个skill写给前端代理的修改提示词：现有工具栏每个Tooltip固定600ms延迟，快速路过时频繁闪烁，连续查找工具也一直要等。沿用组件库，不增加依赖。说明需要先核对什么、改变哪段行为、怎样观察结果。",
       "criteria": [
-        "区分偶然经过、首次停留与连续探索",
-        "先读取现有组件能力和当前实际触发行为，不声称600ms本身导致快速路过闪烁",
-        "给出具体修改对象及三段可操作观察，不全局改所有动画"
+        "Distinguishes passing by, first linger, and continuous exploration",
+        "Checks existing component capabilities and actual trigger behavior first; does not claim 600ms itself causes flicker on pass-by",
+        "Gives a concrete target and three operable observations; does not change all animations globally"
       ]
     },
     {
       "id": "source_scope",
       "prompt": "这个skill是否完整读过两本书的第四版以及所有视频？ZaynHao的0.5px和12px是不是以后所有项目都必须遵守？请依据skill来源记录简短回答。",
       "criteria": [
-        "区分Krug第三版、Williams第二版全文与第四版重复章",
-        "区分文字/抽帧/原应用试用",
-        "个人参数不是全局硬规则"
+        "Distinguishes Krug 3rd edition, Williams 2nd edition full text, and the 4th edition repetition chapter",
+        "Distinguishes text, sampled frames, and actually using the original apps",
+        "Personal parameters are not global hard rules"
       ]
     },
     {
       "id": "minimal_fix",
       "prompt": "用这个skill处理一个局部问题：设置页“保存”按钮的箭头图标外框已居中，但视觉上明显偏左。页面其余部分用户满意，只希望给设计师一条具体调整建议。",
       "criteria": [
-        "聚焦可见轮廓重心与最终尺寸，不展开全页访谈/重设计",
-        "不盲目指定固定像素偏移",
-        "简短且可执行"
+        "Focuses on visible outline weight and final size; no page-wide interviews or redesign",
+        "Does not blindly prescribe a fixed pixel offset",
+        "Short and actionable"
       ]
     },
     {
       "id": "eyebrow_information",
       "prompt": "用这个skill给四组标题做局部改稿，每组前半是主标题上方的小字：OVERVIEW／概览；团队版／审计日志；API v2／创建访问令牌；MAKE IT SIMPLE／通知设置。团队版表示功能适用套餐，API v2表示当前文档版本。请明确每组保留或删除什么，以及删掉小字后如何组织标题与正文；不要改写产品功能。",
       "criteria": [
-        "删除重复概览和纯装饰标语",
-        "保留套餐与版本上下文，不按英文或大写一刀切",
-        "通过标题字重字号及空间重建层级，不用新副标题补回冗余信息"
+        "Removes the repetitive overview label and the purely decorative slogan",
+        "Keeps plan and version context; does not decide by English or capitals",
+        "Rebuilds hierarchy with heading weight, size, and spacing; does not add a new subtitle repeating the same info"
+      ]
+    },
+    {
+      "id": "review_format",
+      "prompt": "用这个skill评审一个注册页：标题“欢迎加入”，下面同时有“立即注册”“了解更多”“联系销售”三个同样大小的蓝色按钮，密码规则只在提交失败后出现。只要评审意见，不要重做页面。",
+      "criteria": [
+        "Each point locates a specific element and states current relationship, change, and how to verify",
+        "Lists issues that cause sign-up failure or misunderstanding first (password-rule timing, unclear primary action), then minor ones",
+        "Does not build a new page or invent product features"
       ]
     }
-  ]
+  ],
+  "trigger_cases": {
+    "purpose": "Checks whether the description triggers when it should and not when it shouldn't; only whether the skill loads is judged.",
+    "should_trigger": [
+      "这个设置页看起来很乱，帮我改得更高级一点",
+      "Redesign this pricing page so the plans are easier to compare",
+      "给 Cursor 写一段提示词，让它把卡片列表的层级理清楚",
+      "评审一下这个登录流程的交互反馈"
+    ],
+    "should_not_trigger": [
+      "React 组件在 Safari 下渲染报错，帮我修一下",
+      "把这个 CSS 文件从 Sass 迁移到 Tailwind，不改变外观",
+      "优化首页的首屏加载速度"
+    ]
+  }
 }

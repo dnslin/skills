@@ -1,55 +1,55 @@
-# Williams：让视觉选择构成一项主张
+# Williams: make visual choices form a claim
 
-依据《The Non-Designer's Design Book》第二版完整正文及第四版重复章。本文的 UI 场景是原创迁移；版本、页码和例图范围见 [来源记录](sources.md#williams)。
+Based on the full text of *The Non-Designer's Design Book*, 2nd edition, plus the repetition chapter of the 4th edition. The UI scenarios here are original applications; editions, pages, and figure coverage are in [sources](sources.md#williams).
 
-## 从焦点开始，决定作品承诺什么
+## Start from the focal point: decide what the piece promises
 
-相同材料可以有不同的视觉主角。先判断读者为什么在意它，再决定哪个内容先被看见，以及其余内容如何支持它。焦点也可以是一组比较项，未必是一个大标题。
+The same material can have different visual leads. First decide why the reader cares, then which content is seen first and how the rest supports it. The focus can be a set of items being compared, not necessarily one big headline.
 
-例如，一场课程可以以讲师声望吸引人，也可以以待解决的问题吸引人。前者让人像、姓名和资历形成入口；后者让问题及学习结果带头。把所有内容都放大，会让两个理由互相争夺。
+Example: a course can attract people through the instructor's reputation or through the problem it solves. The first makes portrait, name, and credentials the entry; the second leads with the problem and learning outcome. Enlarging everything makes the two reasons compete.
 
-视觉还影响预期。价格透明、按量采购的产品，可以显得直接而紧凑；稀疏小字与大片营造的昂贵感，可能不符合它希望建立的信任。先决定承诺，再选择“精致”的具体形式。
+Visuals also set expectations. A product with transparent pricing and bulk purchasing can look direct and compact; sparse small type and large images that signal luxury may undermine the trust it wants. Decide the promise before choosing a specific form of "refined".
 
-## 用空间表达单位，用对齐连接单位
+## Use space to define units and alignment to connect them
 
-亲密性让相关内容被看作一个单位；对齐可以把距离很远的内容联系起来。先说清归属，再安排距离与共同边缘。
+Proximity makes related content read as one unit; alignment can link content that sits far apart. Settle what belongs together first, then arrange distances and shared edges.
 
-例如，书名和作者表达身份，评分和人数表达评价，收藏按钮表达行动。三组内部的距离应比组间更紧。标题、摘要和操作区可以沿同一条起始线衔接；封面说明则跟随封面的边界。全页等距或每个容器各自居中，容易让这些关系消失。
+Example: title and author express identity; rating and count express evaluation; the save button expresses action. Spacing inside each group should be tighter than between groups. Title, summary, and action area can share one starting line; a cover caption follows the cover's edge. Equal spacing everywhere, or centering each container on its own, tends to erase these relationships.
 
-用真实长标题和多行说明观察关系是否仍成立。对齐的对象是可见内容；外框坐标一致并不总能让不同字形与图标看起来平衡。
+Test with real long titles and multi-line descriptions. Alignment applies to visible content; matching bounding-box coordinates does not always make different glyphs and icons look balanced.
 
-## 把已有特征发展成系列
+## Develop an existing trait into a series
 
-重复既能统一，也能创造识别度。从作品中选一个值得强化的特征，让它在不同尺度和位置继续出现，容纳有意变化。
+Repetition both unifies and builds recognition. Pick a trait worth strengthening and let it recur at different scales and places, allowing deliberate variation.
 
-原创例：阅读产品用短横线标记章节位置，详情页用它指示当前进度，分享卡以放大的章节号与短横线呼应。三处不必是同一种组件，但它们像同一个产品。先建立联系，特殊时刻的变化才会显得特殊。
+Original example: a reading app marks chapter positions with a short dash; the detail page uses it for current progress; the share card echoes it with an enlarged chapter number and dash. The three need not be the same component, but they feel like one product. Once the link exists, variation at special moments reads as special.
 
-## 对比要明确，并与周围竞争一起看
+## Make contrast decisive, and judge it against its surroundings
 
-近似而无意义的差异容易形成冲突。相同角色可以统一；需要区分的角色，就让大小、字重、形态或空间形成清楚差别。几个手段应支持同一个主次关系。
+Differences that are close but meaningless create conflict. Same roles can be unified; roles that must be distinguished need clear differences in size, weight, form, or space. Several means should support one hierarchy.
 
-例如，标题靠字号抢第一眼，按钮靠极重字重和饱和色抢第一眼，结果可能互相抵消。先选主角，再协调两者。密集区域旁边，一块安静的结果区也可能更醒目；增加颜色不是唯一办法。
+Example: if the heading competes for first glance by size and the button by heavy weight and saturated color, they may cancel out. Pick the lead first, then coordinate the two. Next to a dense area, a quiet result area may stand out more; adding color is not the only tool.
 
-缩小观看整体时应能辨认构图，恢复实际尺寸后仍要读得清必要信息。前者检查层级，后者检查阅读，不能互相替代。
+Zoomed out, the composition should be recognizable; at actual size, required info must still be legible. The first checks hierarchy, the second checks reading; neither replaces the other.
 
-## 字体关系看字形，不看名称
+## Judge typeface relationships by letterforms, not names
 
-字体的协调、冲突与对比，取决于实际可见差异。先看现有家族能否以字重、宽度与大小支持角色，再决定是否需要第二个家族。两个名字不同、形态近似的字体可能只增加杂乱。
+Harmony, conflict, and contrast between typefaces depend on visible differences. First see whether the existing family can support roles through weight, width, and size before adding a second family. Two differently named but similar-looking faces may only add clutter.
 
-中文应用推导：用真实汉字、英文与数字并排判断字面大小、重心、密度和基线。两款中粗黑体未必能建立标题与正文关系；一个家族的明确字重差异可能更有效。拉丁字体分类、大小写和斜体的经验需要重新验证，不能直接充当中文字体分类。
+CJK application: judge apparent size, center of gravity, density, and baseline by setting real Chinese characters, Latin text, and numerals side by side. Two medium-weight CJK sans-serifs may not establish a heading/body relationship; clear weight differences within one family may work better. Latin classification, case, and italic conventions must be re-verified rather than used as CJK type categories.
 
-## 看文字块的明暗密度
+## Read the tonal density of text blocks
 
-即使只有黑白，字形、字重、行距、字距与行长也会使段落呈现不同的密度。先从整体轮廓判断哪里太沉、哪里太碎，再调整排版。
+Even in black and white, letterform, weight, leading, tracking, and line length give paragraphs different densities. Judge from the overall silhouette where it is too heavy or too fragmented, then adjust typesetting.
 
-例如，文章页的引文可以通过较宽松的节奏形成独立块；连续论述则保持稳定的正文质感。每段都加底色或边框，可能把阅读切碎。层次来自内容关系，不需要不断新增容器。
+Example: a pull quote can form its own block through looser rhythm; continuous argument keeps a steady body texture. Adding a background or border to every paragraph can chop up reading. Hierarchy comes from content relationships, not from ever more containers.
 
-本技能迁移这些判断方法；书中的印刷字号、早期网页宽度与排版技术不作为现代界面的实现要求。
+This skill transfers these ways of judging; the book's print sizes, early fixed web widths, and typesetting techniques are not implementation requirements for modern interfaces.
 
-## 让眉题提供新增信息
+## Eyebrows must add information
 
-本节补充采用用户提供的 [@Invouxly 建议](sources.md#invouxly)。Eyebrow 或 Overline 是主标题上方的小标签；保留它的理由，是提供标题没有表达的分类、上下文或关键信息。
+This section adopts the [@Invouxly suggestion](sources.md#invouxly) supplied by the user. An eyebrow or overline is the small label above a main heading; the reason to keep it is that it supplies category, context, or key info the heading does not.
 
-先把小标签与主标题连起来读，再暂时拿掉小标签：读者是否失去了判断所需的信息？“FEATURES／产品功能”只是换语言重复，可以去掉；“产品更新 · 2026年10月／离线收藏已上线”交代了内容类型和时间，可以保留。判断依据是信息增量，英文或全大写本身不决定去留。
+Read the label and heading together, then remove the label: does the reader lose information needed to decide? "FEATURES / 产品功能" only repeats in another language and can go; "Product update · Oct 2026 / Offline saving is live" adds content type and time and can stay. The test is added information; English or all-caps alone decides nothing.
 
-让主标题的字号、字重以及与正文的间距和留白承担层级。新建设计时，只在确有额外信息的位置添加眉题；改稿时，移除重复或纯装饰标签，并重新整理标题与正文的空间关系。不要为了填补空位，再补一条意思相同的副标题。
+Let the heading's size and weight, and its spacing to the body, carry hierarchy. In new designs, add an eyebrow only where it adds information. In revisions, remove repetitive or decorative labels and re-space heading and body. Do not fill the gap with a subtitle that says the same thing.

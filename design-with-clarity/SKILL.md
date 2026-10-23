@@ -1,45 +1,81 @@
 ---
 name: design-with-clarity
-description: 从 Don't Make Me Think、写给大家看的设计书、ZaynHao 的 UI 实践与 Honkish 提炼设计方法。用于新建界面、视觉改稿、交互设计和设计评审；把用户的理解、版式焦点、操作手感与产品个性转成具体方案，也可据此编写给设计或编码代理的修改提示词。
+description: Use for UI and interaction design - new pages or components, redesigns and visual polish ("make it look more premium / clearer"), layout, typography and visual hierarchy, motion and interaction feedback, design reviews, and writing actionable UI change prompts for design or coding agents. Also for Chinese requests such as 改稿、排版、层级、更高级、交互反馈、设计评审. Not for front-end bugs, performance, or refactors that leave visuals and interaction unchanged.
 ---
 
 # Design with Clarity
 
-让人一眼找到值得注意的内容，知道怎样行动，并在使用中感受到这个产品的性格。
+Help people see what matters at a glance, know how to act, and feel the product's character while using it.
 
-这里保留四种设计视角：Krug 解释人怎样理解和尝试；Williams 解释画面怎样组织和表达；ZaynHao 展示怎样把具体判断交给 AI 反复打磨；Honkish 展示怎样围绕一种体验长出连贯的交互。选取当前问题需要的视角，让它改变方案。
+Four lenses, each for a kind of decision: Krug explains how people understand and try things; Williams explains how a composition is organized and what it expresses; ZaynHao shows how to hand concrete judgments to an AI and iterate; Honkish shows how coherent interaction grows from one intended experience. Pick the lens the current decision needs and let it change the solution. Do not apply them as a checklist.
 
-## 找到这次设计的主张
+## Process
 
-读取真实内容、界面和产品行为，用一句话说明：**这个人在此刻要做什么，什么应该首先吸引他，使用过程希望带来什么感受。** 新建设计同样从内容开始；已有品牌和用户明确喜欢的特征是设计材料。
+### 1. State the design claim
 
-例如，给第一次来访者的摄影展页面，可以让作品先引起兴趣，再使日期地点和预约易于发现；给已购票者的入场页，则让票与入场位置成为焦点。二者可以共享品牌，却不必共享版式重心。
+Read the real content, interface, and product behavior. Write one sentence: **what this person is trying to do right now, what should catch their eye first, and what the experience should feel like.**
 
-接着读取与当前决定相关的参考；一个任务可以组合几种视角：
+- Existing brand traits and features the user explicitly likes are design material; keep them by default.
+- New designs also start from content. If the user gave none, ask for it; if you must proceed, use realistic content clearly labeled as sample (real-length titles, multi-line descriptions, real counts). No Lorem ipsum.
+- Example: for a photo exhibition page aimed at first-time visitors, let the work spark interest first, then make dates, venue, and booking easy to find. For the entry page of a ticket holder, the ticket and entrance location are the focus. Both can share a brand while their layouts center on different things.
 
-| 正在作出的决定 | 必读参考 |
+### 2. Read only the references this decision needs
+
+| Decision being made | Read |
 | --- | --- |
-| 首页怎么让人理解产品、入口怎样命名、选择和跨页流程怎么组织 | [Krug：理解与行动](references/krug.md) |
-| 画面从哪里开始、怎样分组、字体如何搭配、怎样建立鲜明而统一的视觉 | [Williams：视觉组织](references/williams.md) |
-| 已有设计怎样具体改稿、给编码代理怎样下指令、细节怎样迭代 | [ZaynHao：具体修改与样板](references/zaynhao.md) |
-| 如何让操作有个性、让人感到回应、设计探索与表达性的时刻 | [Honkish：体验与互动](references/honkish.md) |
+| How a homepage explains the product, how entries are named, how choices and multi-page flows are ordered | [Krug: understanding and action](references/krug.md) |
+| Where the eye starts, grouping, type pairing, heading hierarchy, building a distinct yet unified look | [Williams: visual organization](references/williams.md) |
+| Concrete revisions to an existing design, instructions for coding agents, iterating icons and timing details | [ZaynHao: concrete revisions and exemplars](references/zaynhao.md) |
+| Giving actions personality, making people feel a response, exploratory and expressive moments | [Honkish: experience and interaction](references/honkish.md) |
 
-只处理一个局部时，直接进入相应参考。涉及整体视觉设计时，先读 Williams；涉及产品首次理解时，先读 Krug。要求鲜明个性或操作趣味时，同时读 Honkish。
+Read only matching rows. For a local issue, one reference is enough. For overall visual design, start with Williams; for first-time understanding, start with Krug. Add Honkish when the user asks for strong personality or playful interaction; add ZaynHao when the work will be handed to another agent.
 
-## 把主张变成可见的决定
+### 3. Find the relationship to change
 
-指出一处关键关系：入口承诺与落地内容、标题与附属信息、同系列与不同角色、手势与回应。设计或实现时，用真实文字和状态做出代表性区域，确定其余内容怎样沿用这套关系；评审或提示词任务则把关系变化写成可定位、可执行的修改。
+Name the one relationship that decides success: what an entry promises vs. what the landing page delivers, a heading vs. its supporting info, members of a series vs. distinct roles, a gesture vs. its response.
 
-视觉上先确定焦点及阅读路径，再共同使用距离、对齐、重复和对比。交互上追踪一次动作从预期到结果的变化，决定哪些要立即响应，哪些时刻值得停留。给其他代理写提示词时，把这项判断转成对象、变化与观察条件，见 ZaynHao 参考中的写法。
+- **Visual:** settle the focal point and reading path first, then use proximity, alignment, repetition, and contrast together so they all support the same hierarchy.
+- **Interaction:** write the before, during, and after states of one action; decide what responds instantly and which moments deserve a pause.
+- **Explain trade-offs by task:** professionals comparing data repeatedly need stable columns and a compact view; an exploratory page can make discovery itself the experience. Continuous data entry should move fast; drawing a "today's reading card" can have a brief reveal; a novel entry point still needs a recognizable cue on first use.
+- **Delight and personality:** when the user asks for them, treat them as a goal. State which action carries them and which high-frequency path they must not slow down. Bold type, whitespace, or motion must have a clear answer to "whose attention does this serve?"
 
-重要取舍用当前任务解释。专业人员反复比较数据，需要稳定的列和紧凑视野；探索型页面可以把发现本身做成体验。大胆的字体、留白或动画是否合适，要看它把注意力交给了谁、产生了什么感受。趣味本身可以成为目标。
+Do not cover every scenario with one fixed style. When the lenses conflict, decide by the claim from step 1.
 
-遇到来源之间的张力，回到具体情境作决定。例如，连续录入应让人迅速推进；抽取一张今日阅读卡可以有短暂揭晓；入口可以新颖，但第一次使用仍要有可辨认的行动线索。将取舍落实在作品里，避免用一套固定风格覆盖所有场景。
+### 4. Build a representative piece, then extend
 
-## 让作品回答判断
+- **Design or implementation:** build one representative area with real text and states, including the longest title, multi-line descriptions, and the empty, error, or loading states relevant to the task. Once the relationships hold, say how the rest of the interface reuses them.
+- **Review or prompt writing:** do not build anything. Write the relationship change as located, actionable edits (format below).
 
-用刚才的任务和内容复看结果。新设计看阅读起点、信息关系与气质是否一起成立；改稿比较同一状态；交互实际操作触发、变化和结果。需要检验陌生人的理解时，给真实任务，观察其行动；自动操作只能验证实现行为。
+### 5. Verify and deliver
 
-交付用户要求的设计、代码、提示词或评审。说明真正影响结果的取舍和实际核验范围。评审应给出可定位的修改，设计应有具体构图与交互，提示词应能直接执行。是否完成，取决于作品是否体现了设计主张。
+Run the checks that fit the task:
 
-需要看四种视角如何共同改变一个方案，读 [完整推导案例](references/worked-examples.md)。核对作者观点、版本和实际读取范围，读 [来源记录](references/sources.md)；日常使用不必重新检索原书。
+- **Composition:** zoomed out, you can name the focal point in one sentence; at actual size, the primary action and required info are easy to find. Both must pass.
+- **Revisions:** compare before and after with the same content and the same state.
+- **Interaction:** actually operate trigger, change, and result, including repeated actions and undo.
+- **Understanding by newcomers:** can only be observed by giving real users a concrete task. If that was not done, say so; designer self-checks and automated runs are not a substitute.
+
+When delivering, state the trade-offs that actually shaped the result and what was and was not verified. Done means the deliverable embodies the claim from step 1 and the step 5 checks have results.
+
+## Output formats
+
+**Design or implementation**
+
+1. Claim: one sentence.
+2. Composition: focal point, groups, reading order.
+3. Key interaction: trigger → change → result.
+4. The design or code.
+5. Verification: which checks ran, which did not.
+
+**Review or revision:** one line per issue. List issues that cause task failure or misunderstanding first, minor ones after.
+
+> Location · current relationship · change to · how to verify
+>
+> Example: Settings "Save" button · arrow icon's bounding box is centered but its visible weight sits left · align by visible outline, not the box · compare against adjacent text in a screenshot at actual size
+
+**Prompts for other agents:** state the object, the change, constraints (what to keep, what not to add), and observation conditions (which content or actions to test with). "Make it more premium" or "add animation" makes the model guess a style again. See the [ZaynHao reference](references/zaynhao.md#describe-the-relationship-to-change) for patterns and examples.
+
+## Further reading
+
+- How the four lenses jointly change one solution: [worked examples](references/worked-examples.md).
+- Authors' views, editions, and what was actually read: [sources](references/sources.md). Day-to-day use does not require revisiting the books.

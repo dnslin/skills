@@ -1,65 +1,65 @@
-# ZaynHao：把设计判断交给 AI 执行
+# ZaynHao: hand design judgment to AI for execution
 
-依据直接读取的 16 篇主帖及其部分配图、视频帧，见 [逐帖来源](sources.md#zaynhao)。这里的提示词为原创改写，展示怎样把设计判断变成具体指令；不复刻作者的十条原文。
+Based on 16 directly read main posts and some of their images and video frames; see [per-post sources](sources.md#zaynhao). The prompts here are original rewrites showing how to turn design judgment into concrete instructions; they do not reproduce the author's ten original prompts.
 
-## 给 AI 一处成立的样板
+## Give the AI one exemplar that works
 
-已认可的真实实现包含抽象形容词无法传达的选择：标题与说明的关系、图标重量、控件密度和操作位置。先读取样板及相关状态，提取这次可以迁移的关系。没有样板时，用真实内容做好代表性区域，再推广到同类区域。
+An approved real implementation carries choices adjectives cannot convey: heading-to-description relationship, icon weight, control density, action placement. First read the exemplar and its relevant states, and extract the relationships that transfer this time. Without an exemplar, build one representative area with real content, then extend to similar areas.
 
-例如：
+Example:
 
-> 以现有通知设置为样板，为同步设置做一组完整的设置项。延续标签与辅助说明的层级、表单行节奏及保存位置。同步包含上次结果与下一次计划，请让它们靠近对应设置，并区分已生效状态与未保存修改。先展示这一组，再扩展其余项。
+> Using the existing notification settings as the exemplar, build a complete group of sync settings. Keep the label/helper-text hierarchy, form-row rhythm, and save placement. Sync includes the last result and the next scheduled run; place them near the related setting, and distinguish applied state from unsaved changes. Show this group first, then extend to the rest.
 
-这让 AI 继承具体决定，同时允许内容差异带来布局差异。
+This lets the AI inherit concrete decisions while letting content differences produce layout differences.
 
-## 描述需要改变的关系
+## Describe the relationship to change
 
-“再高级一点”让模型重新猜风格。更有效的下一轮指令是：**哪个对象，现在呈现什么关系，要改成什么，改后看什么结果。**
+"Make it more premium" makes the model guess a style again. A more effective next instruction says: **which object, what relationship it shows now, what it should become, and what to look at afterward.**
 
-例如，一页版本动态对同一件事重复使用标题、描述和标签：
+Example: a changelog page repeats the same thing in title, description, and tag:
 
-> 把每次更新组织为“对象—变化—影响”的一行；日期成为共有分组。保留会影响升级决定的版本与条件，把重复介绍页面用途的文字让给实际记录。用现有的长标题和多条同日记录检验是否还能迅速找出需要处理的更新。
+> Organize each update as one "object — change — impact" line, with the date as a shared group header. Keep the version and conditions that affect upgrade decisions; give space taken by text restating the page's purpose to actual entries. Test with existing long titles and multiple same-day entries: can the updates that need action still be found quickly?
 
-改变的是信息表达结构。删多少字只是结果，不是目标。
+What changes is the information structure. How many words get cut is a result, not the goal.
 
-## 让视觉词汇对应角色
+## Map visual vocabulary to roles
 
-先分出内容、辅助说明、交互状态和主要操作，再给每种角色稳定的表达。层级不够时，协调字重、位置和空间；出现许多近似样式时，先判断它们是否真的承担不同角色。
+First separate content, helper text, interaction states, and primary actions, then give each role a stable expression. When hierarchy is weak, coordinate weight, position, and space; when many near-identical styles appear, first check whether they really play different roles.
 
-涉及标题上方的小标签时，按[眉题的信息增量](williams.md#让眉题提供新增信息)决定去留，并用标题与正文的排版关系建立层级。
+For small labels above headings, decide by the [eyebrow information test](williams.md#eyebrows-must-add-information) and build hierarchy through heading/body typesetting.
 
-作者的十条提示词包含具体个人参数。迁移时保留它们要解决的问题：成熟颜色系统减少随意配色；有限的字号减少虚假的层级；较轻的分隔避免抢内容。已有系统先用好，实际尺寸和显示效果决定最后取值。
+The author's ten prompts contain personal parameters. When transferring, keep the problem each solves: a mature color system reduces arbitrary colors; a limited type scale reduces false hierarchy; lighter dividers keep from competing with content. Use an existing system well first; actual size and display conditions decide final values.
 
-| 来源中的具体做法 | 用作当前方案时需要的判断 |
+| Specific practice in the source | Judgment needed when applying it |
 | --- | --- |
-| Radix Colors | 按用途选择色阶；已有主题是否已经解决同一问题 |
-| 0.5px 边框 | 在目标显示条件下能否清楚分界；作者回复承认未考虑低分屏 |
-| 三至四种字号、12px | 内容角色与实际阅读条件是否允许；不是普遍上限或合格线 |
-| ease-out、250ms | 当前变化的距离、方向和操作频率是否适合这个起点 |
-| 少用分隔点、阴影和圆角 | 分隔、层次或品牌表达是否有实际作用 |
+| Radix Colors | Choose scales by purpose; does the existing theme already solve this? |
+| 0.5px borders | Do they separate clearly on the target display? The author's reply admits low-DPI screens were not considered |
+| Three to four type sizes, 12px | Do content roles and reading conditions allow it? Not a universal cap or passing bar |
+| ease-out, 250ms | Does it suit this change's distance, direction, and frequency as a starting point? |
+| Fewer separator dots, shadows, radii | Do separation, depth, or brand expression actually serve a purpose? |
 
-这些是来源示例，不是技能的全局替换命令。使用具体库时再读取当前官方文档。
+These are source examples, not global replacement commands for the skill. Read current official docs when using a specific library.
 
-## 让视觉重心比外框更可信
+## Trust visual weight over bounding boxes
 
-同样的外框尺寸，不会让圆形、三角形与箭头看起来一样重。在最终显示尺寸检查可见面积、重心与相邻文字，再调整尺寸、轮廓或位置。嵌套形状则看内外曲线是否形成均匀的间隔。
+Equal bounding boxes do not make a circle, triangle, and arrow look equally heavy. At final display size, check visible area, center of gravity, and adjacent text, then adjust size, outline, or position. For nested shapes, check that inner and outer curves form an even gap.
 
-> 把这组工具图标放回真实工具栏。比较箭头、光标与剪贴板的视觉重量，先修正过肥的轮廓和过长的箭尾，再校正相邻文字的基线。用同一尺寸截图比较，保留各自的动作辨识度。
+> Put this set of tool icons back into the real toolbar. Compare the visual weight of the arrow, cursor, and clipboard; first fix outlines that are too heavy and arrow tails that are too long, then correct the baseline against adjacent text. Compare screenshots at the same size and keep each action recognizable.
 
-## 根据意图安排时序
+## Time things by intent
 
-Tooltip 案例区分偶然经过与连续探索；键盘列表案例为下一项和分组保留空间线索。它们关心的是用户正在怎样使用，而非所有控件共用一个动画值。
+The tooltip case separates passing by from continuous exploration; the keyboard list case keeps spatial cues for the next item and group. They care about how the user is operating, not about one animation value for every control.
 
-> 工具栏首次悬停先判断停留意图；提示已经出现后，同组相邻工具之间快速交接说明。离开后恢复首次等待。用快速经过、逐项查看、离开后返回三段操作体验节奏。
+> On first hover over the toolbar, wait to judge intent to linger; once a tooltip is showing, hand off quickly between adjacent tools in the same group. After leaving, restore the first-hover wait. Test the rhythm with three runs: passing quickly, inspecting item by item, and returning after leaving.
 
-首次 600ms、连续 0s 来自原帖的方案说明，并非视频测量。实现时先查看现有组件对连续触发的支持，再决定参数。
+The 600ms first / 0s continuous values come from the post's description, not video measurement. Before implementing, check how the existing component supports continuous triggering, then choose parameters.
 
-## 让反馈同时表达对象和变化
+## Let feedback express both the object and the change
 
-截图指针案例把目标身份与动作放在注意力所在处；清理预览把预计释放量放入既有容量表示。迁移时寻找用户已经理解的对象和图形，在那里表达变化。
+The screenshot-pointer case puts the target's identity and the action where attention already is; the cleanup preview puts the expected freed space into the existing capacity display. When transferring, find objects and graphics users already understand and express the change there.
 
-> 选中清理候选后，在现有容量条中区分当前占用与预计释放；操作区的预计值对应同一组选中项。切换候选时同步变化，执行完成后再更新真实容量。
+> After selecting cleanup candidates, distinguish current usage from expected freed space in the existing capacity bar; the expected value in the action area matches the same selection. Update in sync when candidates change, and update real capacity only after the operation completes.
 
-倍率圆盘则从镜头调节发展操作隐喻。类似做法应让动作、数值和结果相互对应；需要精确输入的任务，还要保留适合精确操作的途径。
+The zoom-dial case grows an interaction metaphor from lens adjustment. Similar designs should keep action, value, and result in correspondence; tasks that need precise input still need a path suited to precision.
 
-最后回到具体差异继续改稿。作者对十条提示词的后续说明明确把它们视为基础调整；样板和提示词都需要实际结果来检验。
+Finally, go back to concrete differences and keep revising. The author's follow-up explicitly treats the ten prompts as baseline adjustments; exemplars and prompts both need real results to verify them.

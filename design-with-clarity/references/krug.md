@@ -1,43 +1,43 @@
-# Krug：从第一次理解到下一步行动
+# Krug: from first understanding to next action
 
-依据《Don't Make Me Think, Revisited》第三版正文。以下场景和指令是原创迁移方法；章节与阅读证据见 [来源记录](sources.md#krug)。
+Based on the main text of *Don't Make Me Think, Revisited*, 3rd edition. The scenarios and instructions below are original applications; chapters and reading evidence are in [sources](sources.md#krug).
 
-## 先预测人会把它当成什么
+## Predict what people will take it for
 
-人带着自己的任务扫读，尝试先遇见的合理入口，并沿用已经奏效的做法。设计者知道系统怎样运转，使用者只看得到眼前的线索。第一次形成的解释，会影响后面的阅读。
+People scan with their own task in mind, try the first reasonable entry they meet, and stick with whatever worked. Designers know how the system works; users only see the cues in front of them. The first interpretation they form shapes everything they read after.
 
-设计首页时，拿掉自己的产品知识，只看页名、最醒目的内容和主操作：它们共同承诺了什么？落地页是否兑现这个承诺？评审入口时，同时寻找**最像正确答案的错误入口**。
+When designing a homepage, set aside your product knowledge and look only at the page name, the most prominent content, and the primary action: what do they promise together? Does the landing page keep that promise? When reviewing entry points, also look for **the wrong entry that looks most like the right answer**.
 
-例如，资料库首页以“发布灵感”和编辑器为视觉中心，可能被认作创作平台。若目标是让人发现已有资料，应让真实资料及其用途先出现。继续加一句“这里也能浏览”往往不如改变入口与内容的主次。
+Example: a library homepage centered on "Post an idea" and an editor may be read as a creation platform. If the goal is discovering existing material, show real material and its uses first. Adding "you can also browse here" usually helps less than changing the priority between entry and content.
 
-## 让选择出现在有依据的地方
+## Put choices where people have grounds to choose
 
-一次选择的困难来自不确定性。顺序应使人逐步获得作决定的依据；重复任务也要计入来回和等待的成本。
+A choice is hard because of uncertainty. Order steps so people gain the basis for each decision as they go; for repeated tasks, also count round trips and waiting.
 
-例如，导出页先问“标准模式／高级模式”，需要用户猜内部分类。可以先呈现他要得到的东西：当前所见的成品，或可继续编辑的数据，再露出相应选项。如果操作者每天重复同一种导出，可用既有选择直接推进。
+Example: an export page that first asks "Standard / Advanced mode" makes users guess an internal category. Show what they will get instead: the finished output as seen, or editable data. Then reveal the matching options. If an operator does the same export daily, proceed with the existing choice.
 
-这里应改变的是问题的表述与出现时机。把一个难题拆成更多页面，可能只是延后困惑。
+What should change is how the question is phrased and when it appears. Splitting one hard question into more pages may only postpone the confusion.
 
-## 让每一步都认得出自己在哪里
+## Let every step show where you are
 
-导航同时说明产品结构、当前位置与可以去的地方。沿入口、页名、对象和操作结果追踪同一件事；从外部直达详情时，也应能辨认其身份和归属。
+Navigation explains the product's structure, the current location, and where you can go. Trace the same thing across entry, page name, object, and action result; someone arriving at a detail page from outside should still recognize what it is and where it belongs.
 
-例如，用户从某个相册进入“下载”，重点是分清单张、选中项与整个相册。把对象和数量放进操作附近，比让用户记住上一页的选择更可靠。若页名与入口不同，先判断是否让同一个对象看起来变成了另一件事。
+Example: entering "Download" from an album, the key is distinguishing a single photo, the selection, and the whole album. Putting the object and count next to the action is more reliable than asking users to remember the previous page's selection. If the page name differs from the entry label, check whether the same object now looks like a different thing.
 
-## 帮助放在疑问发生处
+## Put help where the question arises
 
-文案承担识别、区分、行动或恢复的作用。先把结构和命名做得可理解，再补当下需要的解释。重复页面用途的欢迎语可以让位给内容；会改变决定的条件应出现在决定旁。
+Copy does the work of identifying, distinguishing, prompting action, or recovering. Make structure and naming understandable first, then add the explanation needed at that moment. Welcome text restating the page's purpose can give way to content; conditions that change a decision belong next to that decision.
 
-一个名叫“合并”的动作若实际只追加，就应表达追加及重复项的处理结果。简化文字的目标是省去猜测，不能把关键区别缩成一个更短的模糊词。
+If an action named "Merge" actually only appends, it should say it appends and how duplicates are handled. Simplifying copy is about removing guesswork, not shrinking a key distinction into a shorter, vaguer word.
 
-## 新颖表达也要能学会、再认出
+## Novel forms must be learnable and recognizable
 
-惯例让已有知识可以复用；新的形式可以带来更好的探索或表达。比较方案时，看首次怎么开始、动作怎样被发现、隔一段时间回来是否仍能使用。
+Conventions let people reuse what they know; new forms can enable better exploration or expression. When comparing options, look at how a first-time user starts, how actions are discovered, and whether it is still usable after time away.
 
-例如，人物关系图适合发现未知关联；已知姓名的查找则需要稳定入口。让这两种任务各有合适的路径，比宣布“地图比列表先进”更能指导实现。
+Example: a relationship map suits discovering unknown connections; looking up a known name needs a stable entry. Giving each task a fitting path guides implementation better than declaring "maps beat lists".
 
-## 让真实任务裁决分歧
+## Let real tasks settle disagreements
 
-把“按钮不够明显”改成可以观察的任务：“停止公开分享这份资料，但保留文件”。看人从哪里开始、怎样理解结果、什么时候察觉偏离。设计者解释后才会用，说明界面还没有承担解释工作。
+Turn "the button isn't obvious enough" into an observable task: "Stop sharing this file publicly but keep the file." Watch where people start, how they read the result, and when they notice they went wrong. If people only succeed after the designer explains, the interface is not yet doing the explaining.
 
-先解决使任务明显失败或形成错误理解的问题；轻微绕路若能迅速恢复，应结合发生频率决定是否值得改。把观察到的行为与自己的推测分别记录，再用同一任务检验修改。
+Fix problems that cause outright task failure or wrong understanding first. Minor detours that recover quickly are worth fixing depending on frequency. Record observed behavior separately from your guesses, then test the revision with the same task.

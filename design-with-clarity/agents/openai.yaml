@@ -1,4 +1,4 @@
 interface:
   display_name: "Design with Clarity"
-  short_description: "融合用户理解、视觉构图、具体改稿与互动体验，做出有依据也有性格的设计"
-  default_prompt: "用 $design-with-clarity 完成这次设计：结合真实内容确定视觉主张与使用体验，读取相关来源方法，做出具体方案并检查结果。"
+  short_description: "UI design, redesign, and review grounded in user understanding, visual composition, concrete revision, and interaction feel"
+  default_prompt: "Use $design-with-clarity for this design task: state the design claim from real content, read the relevant references, produce a concrete solution, and verify the result."
