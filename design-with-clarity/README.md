@@ -1,25 +1,25 @@
 # design-with-clarity
 
-把用户理解、视觉组织、具体改稿和互动体验结合成设计能力。
+Combines user understanding, visual organization, concrete revision, and interaction experience into one design skill.
 
-- Krug：预测第一次理解、寻找容易误入的入口、安排有依据的选择。
-- Williams：决定视觉承诺与焦点，用空间、字体和变化建立构图。
-- ZaynHao：用真实样板与具体提示词指导 AI 迭代。
-- Honkish：从动作、关系和产品气质中发展个性与回应。
+- Krug: predict first understanding, find the wrong entry that looks right, place choices where people have grounds to make them.
+- Williams: decide the visual promise and focal point; build composition with space, type, and variation.
+- ZaynHao: guide AI iteration with real exemplars and concrete prompts.
+- Honkish: grow personality and response from actions, relationships, and product character.
 
-[SKILL.md](SKILL.md) 是入口，按设计决定读取相应参考。它既用于创建作品，也用于改稿和评审。详细版本与读取范围见 [sources.md](references/sources.md)。
+[SKILL.md](SKILL.md) is the entry point: a five-step process, references read per design decision, and output formats for design, review, and prompt tasks. Editions and reading scope are in [sources.md](references/sources.md).
 
-## 使用
+## Usage
 
 ```text
-用 $design-with-clarity 设计这间独立书店的推荐页。
-来访者想发现一本今晚读的书，希望有店员递来荐书卡的亲近感。
-现有功能是随机推荐、浏览全部和收藏。请做出具体页面和互动。
+Use $design-with-clarity to design the recommendation page for this independent bookshop.
+Visitors want to discover a book to read tonight, with the warmth of a staff member handing over a card.
+Existing features: random pick, browse all, save. Build the actual page and interactions.
 ```
 
 ```text
-用 $design-with-clarity 改稿这个界面，并给编码代理写一段可执行提示词。
-请明确哪个关系需要改变，用什么表达，以及怎样观察修改结果。
+Use $design-with-clarity to revise this interface and write an executable prompt for a coding agent.
+Say which relationship must change, how to express it, and how to observe the result.
 ```
 
-完整组合示例见 [worked-examples.md](references/worked-examples.md)。技能维护者可用 [行为评估场景](evals/cases.json) 检验它是否真的影响设计决定；这些不是日常设计检查项。本轮结果见 [评估记录](evals/results-2026-10-23.md)。
+Full combined examples are in [worked-examples.md](references/worked-examples.md). Maintainers can use the [behavior and trigger cases](evals/cases.json) to check whether the skill actually changes design decisions and triggers when it should; they are not day-to-day design checks. Results are in the [eval record](evals/results-2026-10-23.md).

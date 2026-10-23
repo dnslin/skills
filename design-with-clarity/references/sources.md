@@ -1,97 +1,97 @@
-# 来源、读取范围与归属
+# Sources, reading scope, and attribution
 
-本轮核验日期：2026-10-23。技能包含原创提炼和原创迁移案例，不收录书籍全文、完整推文、他人媒体或连续摘录。这里记录研究证据，不作为日常执行步骤。
+Verified on: 2026-10-23. The skill contains original distillation and original applied examples; it does not include book text, full posts, others' media, or continuous excerpts. This page records research evidence and is not a day-to-day execution step.
 
 ## Krug
 
-**版本：** Steve Krug，*Don't Make Me Think, Revisited*，第三版，2014，ISBN 9780321965516。[作者书目](https://sensible.com/dont-make-me-think/)。
+**Edition:** Steve Krug, *Don't Make Me Think, Revisited*, 3rd edition, 2014, ISBN 9780321965516. [Author's book page](https://sensible.com/dont-make-me-think/).
 
-**完整材料：** [Scuola Normale Superiore 域名托管 PDF](https://www.sns.it/sites/default/files/2020-10/Don%27t%20Make%20Me%20Think%2C%20Revisited%2C%203rd%20Edition_0.pdf)。共 184 个 PDF 页面，是重排文本，以下使用 PDF 页码，不冒充纸书页码。公开托管不代表已核实再分发授权；本仓库仅保留链接和原创提炼。
+**Full material:** A complete third-party-hosted PDF was read during research: 184 PDF pages of reflowed text. Page numbers below are PDF pages, not print pages. Its redistribution rights are unverified, so this repository does not link the file and keeps only publisher links and original distillation.
 
-已按章读取前言、导言与全部 13 章正文。另渲染查看 PDF 第 42、46、56、124、144 页，覆盖照片导航、包含关系、分步选择、术语误解和手势教程。未逐页视觉检查所有插图。
+Read chapter by chapter: preface, introduction, and all 13 chapters. Also rendered PDF pages 42, 46, 56, 124, and 144, covering photo navigation, containment, stepwise choice, terminology misunderstanding, and gesture tutorials. Not every illustration was visually inspected.
 
-| 技能采用的思想 | 正文章节与 PDF 位置 |
+| Idea used by the skill | Chapters and PDF pages |
 | --- | --- |
-| 扫读、尝试合理入口、沿用可用做法 | 第 1–3 章，24–53 页 |
-| 选择的不确定性、帮助出现的时机、文案 | 第 4–5 章，54–62 页 |
-| 导航与首次理解 | 第 6–7 章，63–99 页 |
-| 以具体任务观察真实使用 | 第 8–9 章，100–129 页 |
-| 学习、记忆、趣味与移动场景 | 第 10 章，130–149 页 |
-| 善意、可访问性和组织中的可用性工作 | 第 11–13 章，150–173 页 |
+| Scanning, trying reasonable entries, sticking with what works | Ch. 1–3, pp. 24–53 |
+| Uncertainty in choices, timing of help, copy | Ch. 4–5, pp. 54–62 |
+| Navigation and first understanding | Ch. 6–7, pp. 63–99 |
+| Observing real use with concrete tasks | Ch. 8–9, pp. 100–129 |
+| Learning, memory, delight, and mobile | Ch. 10, pp. 130–149 |
+| Goodwill, accessibility, and usability work in organizations | Ch. 11–13, pp. 150–173 |
 
-同时核对出版方全文节选：[界面引出的疑问](https://www.peachpit.com/articles/article.aspx?p=2209309)、[视觉层级](https://www.peachpit.com/articles/article.aspx?p=2209310)、[可用性测试](https://www.peachpit.com/articles/article.aspx?p=2209313)。本技能不把书中当年的设备、工具和平台惯例写成当前技术要求。
+Also checked the publisher's full excerpts: [questions an interface raises](https://www.peachpit.com/articles/article.aspx?p=2209309), [visual hierarchy](https://www.peachpit.com/articles/article.aspx?p=2209310), [usability testing](https://www.peachpit.com/articles/article.aspx?p=2209313). The skill does not turn the book's period devices, tools, and platform conventions into current technical requirements.
 
 ## Williams
 
-**完整读取版本：** Robin Williams，*The Non-Designer's Design Book*，第二版，版权页 ©2004，ISBN 0-321-19385-7。[出版社书目](https://www.peachpit.com/store/non-designers-design-book-9780321193858)。
+**Edition fully read:** Robin Williams, *The Non-Designer's Design Book*, 2nd edition, copyright page ©2004, ISBN 0-321-19385-7. [Publisher page](https://www.peachpit.com/store/non-designers-design-book-9780321193858).
 
-**完整材料：** [公开镜像 PDF](https://ebooks.karbust.me/Technology/The%20Non-Designer%27s%20Design%20Book%20-%202nd%20Edition%20-%20Robin%20Williams%20-%20Peachpit%20Press%20%282008%29.pdf)。文件名的 2008 与版权页不符，版本以版权页及出版社书目为准。共 194 个 PDF 页面，印刷页 N 对应 PDF 第 N+1 页。镜像传播授权未核实，不称官方免费版，也不在仓库重新分发。
+**Full material:** A complete third-party mirror PDF was read during research; its filename says 2008, which conflicts with the copyright page, so the edition follows the copyright page and publisher listing. 194 PDF pages; print page N is PDF page N+1. Its redistribution rights are unverified, so this repository does not link or redistribute the file.
 
-已按章读取印刷页 9–188 的正文、练习与答案、参考及字体表；索引未逐条阅读。OCR 个别图内文字失真，另渲染查看印刷页 23、24、25、45、46、58、59、153、154、167、168、186。未逐页视觉检查全书。
+Read print pages 9–188 chapter by chapter: body, exercises and answers, references, and type tables; the index was not read entry by entry. Some OCR text inside figures was distorted, so print pages 23, 24, 25, 45, 46, 58, 59, 153, 154, 167, 168, and 186 were also rendered and viewed. Not every page was visually inspected.
 
-| 技能采用的思想 | 第二版印刷页 |
+| Idea used by the skill | 2nd edition print pages |
 | --- | --- |
-| 空间归属与跨区域对齐 | 24–25、31、46 |
-| 用重复发展变化与识别度 | 58–59 |
-| 外观承诺与受众、对比的周边环境 | 112、116 |
-| 字体冲突、多种差异支持同一主次 | 126、154、170 |
-| 文字块明暗密度、实际字形大小 | 165–169、186 |
-| 从焦点开始的设计过程 | 176 |
+| Spatial grouping and cross-region alignment | 24–25, 31, 46 |
+| Repetition to develop variation and recognition | 58–59 |
+| Visual promise and audience; contrast in context | 112, 116 |
+| Type conflict; multiple differences supporting one hierarchy | 126, 154, 170 |
+| Tonal density of text blocks; actual glyph size | 165–169, 186 |
+| Design process starting from the focal point | 176 |
 
-**第四版补充：** 读取[重复章完整节选](https://www.peachpit.com/articles/article.aspx?p=2268752)（印刷页 55–68），并查看[官方样章 PDF](https://www.peachpit.com/content/images/9780133966152/samplepages/9780133966152.pdf)中印刷页 65 的不同焦点构图。未获得第四版完整正文，未声称读完其新增色彩与字体基础章节。
+**4th edition supplement:** Read the [full repetition chapter excerpt](https://www.peachpit.com/articles/article.aspx?p=2268752) (print pages 55–68) and viewed different focal compositions on print page 65 of the [official sample PDF](https://www.peachpit.com/content/images/9780133966152/samplepages/9780133966152.pdf). The full 4th edition text was not obtained; no claim is made to have read its new color and type chapters.
 
-中文字体、现代屏幕和 UI 案例是本技能的应用推导。第二版的黑白文字密度讨论不等同完整色彩理论；当年的固定网页宽度、表格排版及印刷字号不纳入实现规范。
+CJK type, modern screens, and UI cases are this skill's own applications. The 2nd edition's black-and-white text-density discussion is not a full color theory; period fixed web widths, table layout, and print sizes are not implementation rules.
 
 ## ZaynHao
 
-通过已登录的原始 X 页面直接读取下列 **16 篇主帖全文**，区分主帖、引用与回复。实际查看 5 张相关配图、5 个视频的 29 个时间取样帧；不是搜索摘要，也不等于原产品操作测试或连续动画测评。
+The following **16 main posts were read in full** via the logged-in original X pages, distinguishing main post, quotes, and replies. Actually viewed 5 relevant images and 29 time-sampled frames from 5 videos. This is not a search summary, nor a test of the original products or a continuous animation review.
 
-| 原始帖子 | 实际视觉读取范围 |
+| Original post | Visual reading scope |
 | --- | --- |
-| [十条 UI 提示词](https://x.com/ZaynHao/status/2113456751915982917) | 两张前后对比图 |
-| [基础调整后的继续迭代](https://x.com/ZaynHao/status/2113482619480690729) | 文字 |
-| [Radix 色阶与用途](https://x.com/ZaynHao/status/2049479990815883639) | 用途表配图 |
-| [基础样板与设计讨论](https://x.com/ZaynHao/status/2052401033163530289) | 文字 |
-| [推荐 Honkish](https://x.com/ZaynHao/status/2090273807080763719) | 附视频未看；Honkish 原文另读 |
-| [键盘列表边缘滚动](https://x.com/ZaynHao/status/2112860503064400268) | 16.267 秒视频，0.5/4/8/12/15 秒的 5 帧 |
-| [清理结果预览](https://x.com/ZaynHao/status/2085693981279895592) | 完整配图 |
-| [截图指针](https://x.com/ZaynHao/status/2073403169489764506) | 15.7 秒视频，6 帧 |
-| [Tooltip 首次与连续触发](https://x.com/ZaynHao/status/2072607944651477447) | 21.716 秒视频，6 帧 |
-| [倍率圆盘](https://x.com/ZaynHao/status/2099412560865087806) | 20.733 秒视频，6 帧 |
-| [精调实现的迁移](https://x.com/ZaynHao/status/2089899297773154653) | 文字 |
-| [设置页样板](https://x.com/ZaynHao/status/2111682049937670388) | 文字 |
-| [图标迭代](https://x.com/ZaynHao/status/2098409274041114656) | 当前版本图标图；未对引用旧图作比较 |
-| [可操作的产品展示](https://x.com/ZaynHao/status/2076591004568920301) | 39.3 秒视频，6 帧；未亲自使用原产品 |
-| [设计案例拆解](https://x.com/ZaynHao/status/2086713248716632483) | 只用主帖观点；转引图及链接文章未作内容依据 |
-| [设计讨论的重要性](https://x.com/ZaynHao/status/2054866581382139934) | 文字 |
+| [Ten UI prompts](https://x.com/ZaynHao/status/2113456751915982917) | Two before/after images |
+| [Continued iteration after baseline fixes](https://x.com/ZaynHao/status/2113482619480690729) | Text |
+| [Radix scales and purposes](https://x.com/ZaynHao/status/2049479990815883639) | Purpose-table image |
+| [Baseline exemplars and design discussion](https://x.com/ZaynHao/status/2052401033163530289) | Text |
+| [Recommending Honkish](https://x.com/ZaynHao/status/2090273807080763719) | Attached video not viewed; Honkish article read separately |
+| [Keyboard list edge scrolling](https://x.com/ZaynHao/status/2112860503064400268) | 16.267 s video, 5 frames at 0.5/4/8/12/15 s |
+| [Cleanup result preview](https://x.com/ZaynHao/status/2085693981279895592) | Full image |
+| [Screenshot pointer](https://x.com/ZaynHao/status/2073403169489764506) | 15.7 s video, 6 frames |
+| [Tooltip first vs. continuous trigger](https://x.com/ZaynHao/status/2072607944651477447) | 21.716 s video, 6 frames |
+| [Zoom dial](https://x.com/ZaynHao/status/2099412560865087806) | 20.733 s video, 6 frames |
+| [Transferring refined implementations](https://x.com/ZaynHao/status/2089899297773154653) | Text |
+| [Settings page exemplar](https://x.com/ZaynHao/status/2111682049937670388) | Text |
+| [Icon iteration](https://x.com/ZaynHao/status/2098409274041114656) | Current icon image; quoted older image not compared |
+| [Operable product showcase](https://x.com/ZaynHao/status/2076591004568920301) | 39.3 s video, 6 frames; original product not used |
+| [Design case breakdown](https://x.com/ZaynHao/status/2086713248716632483) | Main-post views only; quoted images and linked article not used as evidence |
+| [Why design discussion matters](https://x.com/ZaynHao/status/2054866581382139934) | Text |
 
-Tooltip 的 600ms/0s 来自作者正文，未据视频帧测量。倍率案例以圆盘调整倍率，旁边滑杆不能混述为倍率操作。作者[回复](https://x.com/ZaynHao/status/2113463292614332685)说明 0.5px 建议未考虑低分屏。
+The tooltip 600ms/0s values come from the author's text, not measured from video frames. In the zoom case, the dial adjusts zoom; the nearby slider must not be described as the zoom control. The author's [reply](https://x.com/ZaynHao/status/2113463292614332685) notes the 0.5px suggestion did not consider low-DPI screens.
 
 ## Invouxly
 
-补充来源：[@Invouxly 关于 Eyebrow / Overline 的评论](https://x.com/Invouxly/status/2113465642183500059)。此前读取了原帖下可见的评论片段，本次由用户提供完整建议并明确要求纳入。核心是按新增信息决定眉题去留，以排版本身建立层级。技能中的对照场景和操作方法为原创应用。
+Supplementary source: [@Invouxly's comment on eyebrows / overlines](https://x.com/Invouxly/status/2113465642183500059). Visible comment snippets under the original post were read earlier; this time the user supplied the full suggestion and explicitly asked to include it. The core idea: keep or drop an eyebrow based on the information it adds, and build hierarchy through typography itself. The comparison scenarios and methods in the skill are original applications.
 
-该建议放在 Williams 参考页的标题层级部分，便于设计时读取；不归为 Williams 的书中规则，也不归为 ZaynHao 的第十一条。
+The suggestion lives in the heading-hierarchy part of the Williams reference so it is read during design; it is not attributed to Williams's book or presented as ZaynHao's eleventh prompt.
 
 ## Honkish
 
-[Benji Taylor：Honkish](https://benji.org/honkish)，2025-05-23。已读取全文。按正文与媒体对应关系，从下列 16 段官方录屏各取 8 个分布于时长内的画面并逐张查看，共 128 帧。
+[Benji Taylor: Honkish](https://benji.org/honkish), 2025-05-23. Full article read. Following the text-to-media mapping, 8 frames spread across each of the 16 official recordings below were viewed one by one: 128 frames in total.
 
-媒体链接统一为 `https://benji.org/media/honkish/<编号>.mp4`：
+Media links follow `https://benji.org/media/honkish/<id>.mp4`:
 
-| 编号 | 案例 |
+| ID | Case |
 | --- | --- |
-| 01 / 02 / 03 / 04 | 到场、离开、输入区域变化、部分注意状态 |
-| 05 / 06 | 触点回应、反应试用 |
-| 17 / 18 | 表情碰撞、关键词反馈 |
-| 19 / 20 | 通知、危险动作的色彩语境 |
-| 22 / 25 / 26 | 探索揭晓、签名、匹配与资料展示 |
-| 27 / 27-a / 27-b | 评分表情、增删条目、结束聊天转换 |
+| 01 / 02 / 03 / 04 | Arriving, leaving, input-area changes, partial-attention states |
+| 05 / 06 | Touch-point response, trying reactions |
+| 17 / 18 | Emoji collisions, keyword feedback |
+| 19 / 20 | Notifications, color context for destructive actions |
+| 22 / 25 / 26 | Exploration reveal, signing, matching and profile display |
+| 27 / 27-a / 27-b | Rating faces, adding/removing items, end-of-chat transition |
 
-取样用于核对状态与视觉关系；没有把抽帧称为连续观看全部视频。未操作原应用，未试听声音，无法验证触觉。没有从录屏推断具体弹簧参数、性能、触觉质量或用户效果。其他小游戏、声音和字体内容只按正文阅读范围使用。
+Sampling was used to check states and visual relationships; it is not described as continuous viewing of all videos. The original app was not operated, sounds were not heard, and haptics cannot be verified. No spring parameters, performance, haptic quality, or user effects were inferred from recordings. Other mini-games, sound, and type content are used only within the text read.
 
-## 归属与提炼方式
+## Attribution and distillation
 
-四个参考文件中的现代任务、提示词、取舍和组合案例是原创推导。作者材料支持设计思想，不能替这些新场景证明有效。主文件的执行路径采用本次任务需要的组织方式，并非四位作者共同制定的流程。
+The modern tasks, prompts, trade-offs, and combined cases in the four reference files are original derivations. The authors' material supports the design ideas but cannot prove these new scenarios effective. The main file's execution path is organized for this skill's tasks, not a process jointly defined by the four authors.
 
-研究材料只用于阅读与核验。技能日常使用读取仓库内的原创参考即可；需要书目或原始案例时再访问本页链接。
+Research material was used only for reading and verification. Day-to-day use of the skill only needs the original references in this repository; visit the links here when bibliographic details or original cases are needed.

@@ -1,39 +1,39 @@
-# 从材料到作品：两次完整推导
+# From material to work: two full derivations
 
-以下均为原创假设项目，不是原书案例，也不是用户测试结论。它们展示如何组合视角；具体形式随内容与任务改变。
+Both are original hypothetical projects, not cases from the books and not user-test results. They show how to combine lenses; the concrete form changes with content and task.
 
-## 一间小书店的“今晚读什么”
+## A small bookshop's "What to read tonight"
 
-**材料。** 页面已有“随机推荐一本”、浏览全部、收藏三个功能。书店常客希望偶尔发现陌生作品；店主希望有纸张、批注和手工编号的气质。每本书都有书名、作者、封面、一句店员推荐及预计阅读时长。
+**Material.** The page has three features: "Recommend me a random book", browse all, and save. Regulars want to occasionally discover unfamiliar books; the owner wants a feel of paper, annotations, and hand-numbering. Each book has title, author, cover, a one-line staff recommendation, and estimated reading time.
 
-**主张。** 让人像从店员手中接过一张荐书卡，先被一句推荐吸引，然后知道是什么书、值不值得今晚读。
+**Claim.** It should feel like receiving a recommendation card from a staff member: drawn in by the one-line pick first, then learning what the book is and whether it is worth reading tonight.
 
-**首次理解。** 如果首屏只有神秘图案和“开启旅程”，来访者需要猜结果。入口用“给我一本今晚读的书”，附近露出一张实际荐书卡，让随机推荐的对象与内容可预测。浏览全部继续直达已有书目。这使用 Krug 的理解视角。
+**First understanding.** If the first screen shows only a mysterious pattern and "Begin the journey", visitors must guess the result. Label the entry "Give me a book for tonight" and show a real recommendation card nearby, so the object and content of the random pick are predictable. Browse all still goes straight to the catalog. This uses Krug's understanding lens.
 
-**构图。** 先让店员的一句推荐成为阅读起点，书名与作者组成身份单元，时长和收藏靠近决策区。以一条共同起始线连接推荐与书籍资料。手写批注只承担店员声音，稳定正文承担书籍信息；小编号在卡片、书目和收藏状态中重复。Williams 的视觉手段一起建立焦点与性格。
+**Composition.** The staff's one-line pick is the reading start; title and author form an identity unit; reading time and save sit near the decision area. One shared starting line connects the pick and the book info. Handwritten annotation carries only the staff voice; steady body text carries book info; a small number repeats across card, catalog, and saved state. Williams's visual means work together to set focus and character.
 
-**互动。** 按下推荐后，卡片从可见的卡叠中被抽出，封面与推荐一起出现。收藏时，让同一张卡上的书签落定；浏览全部不增加揭晓等待。这里借鉴 Honkish 从既有动作发展体验：发现可以有铺垫，定向查找保持直接。声音不是这一设计成立的必要条件。
+**Interaction.** On pressing recommend, a card is drawn from a visible stack, with cover and pick appearing together. On save, a bookmark settles on the same card; browse all adds no reveal delay. This borrows Honkish's way of growing experience from existing actions: discovery can have build-up, directed search stays direct. Sound is not required for the design to work.
 
-**交给实现代理的指令。**
+**Instruction to the implementation agent.**
 
-> 用现有数据完成一张荐书卡和推荐、收藏两个动作。让推荐语带头，书名与作者形成紧密身份组，时长靠近收藏。保留纸张色与手工编号；编号在书目条目中呼应。推荐产生卡片揭晓，收藏反馈发生在当前卡上。先用最长书名、两行推荐和连续换书试做这个区域，再沿用到其余条目。
+> Using existing data, build one recommendation card and the recommend and save actions. Let the pick lead; title and author form a tight identity group; reading time sits near save. Keep the paper color and hand-numbering; echo the number in catalog entries. Recommend triggers a card reveal; save feedback happens on the current card. Try this area first with the longest title, a two-line pick, and repeated book switching, then extend to the remaining entries.
 
-这采用 ZaynHao 的样板与具体改稿方式。只说“书店风、加动效”无法传达同样的决定。
+This uses ZaynHao's exemplar and concrete-revision approach. "Bookshop style, add motion" cannot convey the same decisions.
 
-**判断如何改变。** 若主要用户变成每天找固定书目的店员，首屏应转向检索与列表，荐书卡退为探索入口。品牌可以延续，视觉主导和节奏要重新分配。
+**How the judgment changes.** If the main users become staff looking up known titles daily, the first screen should shift to search and list, with the card demoted to an exploration entry. The brand can carry over; visual lead and rhythm must be reallocated.
 
-**核验。** 渲染时看一句推荐、书名和行动的顺序；操作时看换书是否仍作用于当前卡、收藏是否真的生效。给陌生人“找一本适合今晚读的书并留待以后”的任务，才可观察其理解；设计者自查不等于这个观察。
+**Verification.** When rendered, check the order of pick, title, and action. When operating, check that switching books still acts on the current card and that save actually takes effect. Only giving a stranger the task "find a book for tonight and keep it for later" can observe their understanding; designer self-checks are not that observation.
 
-## 同一场讲座，两个都可以成立的方向
+## One talk, two valid directions
 
-**材料。** “城市夜行：用手机记录街头光线”，摄影师林岚，周六 19:00，90 分钟，线上直播，免费。目标分别是吸引讲师的已有关注者，或吸引不知道讲师的摄影新手。
+**Material.** "City Night Walk: capturing street light with your phone", photographer Lin Lan, Saturday 19:00, 90 minutes, livestream, free. Goals: attract the photographer's existing followers, or attract beginner photographers who don't know her.
 
-**方向 A：跟这位摄影师走一晚。** 人像与姓名构成入口，主题作为她将带来的内容。时间、形式与报名组成稳定资料组。可沿用作品中的裁切方式作为系列特征。
+**Direction A: spend a night with this photographer.** Portrait and name form the entry; the topic is what she will bring. Time, format, and registration form a stable info group. Her work's cropping style can become the series trait.
 
-**方向 B：把夜晚拍清楚，也拍出情绪。** 先让一张夜景和待解决的问题抓住目光；讲师姓名与资历随后建立可信度。时间和报名仍容易定位。标题与正文的差异支持主题主导，不让头像重新抢回焦点。
+**Direction B: shoot the night clearly and with mood.** A night scene and the problem to solve grab the eye first; the photographer's name and credentials then build credibility. Time and registration stay easy to locate. Heading/body differences support a topic-led page without letting the portrait take focus back.
 
-两版改变的是视觉承诺和内容组合，单换颜色不能兑现这两个方向。若用户同时要比较多位讲师，焦点就应转向比较关系。
+The two versions change the visual promise and content grouping; swapping colors alone cannot deliver either direction. If users must compare several speakers, focus should shift to the comparison.
 
-**具体改稿。** 先用完全相同的资料做两版首屏；各自选定一个主导，让字号、字重、空间与图像共同支持它。向实现代理提供选中的版本作为后续讲座页样板，说明哪些关系延续，哪些由内容决定。
+**Concrete revision.** First build both first screens from exactly the same material; each picks one lead and lets size, weight, space, and image support it together. Give the implementation agent the chosen version as the exemplar for later talk pages, stating which relationships carry over and which follow content.
 
-**核验。** 缩小看能否认出各自的主角，再以实际尺寸找时间、时长和报名；两项都成立才算兑现方案。哪个方向更吸引目标人群，仍需该人群的反馈。
+**Verification.** Zoomed out, can each version's lead be recognized? At actual size, can time, duration, and registration be found? Both must hold for the direction to be delivered. Which direction better attracts the target audience still needs that audience's feedback.
