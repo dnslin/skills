@@ -1,79 +1,100 @@
 ---
 name: orca-orchestrator
 description: >-
-  Coordinate and supervise coding agents through Orca across Claude Code, Codex,
-  and OMP. Use when the user requests multi-agent orchestration, supervised
-  delegation, model-aware task routing, parallel workers, independent review,
-  or task-specific skill handoffs with Orca. For an unsupervised one-way
-  handoff, follow Orca's ordinary handoff guidance instead.
+  Supervise coding agents through Orca across Claude Code, Codex, and OMP,
+  with automatic task-based model selection and evidence-based acceptance.
+  Use for supervised delegation, parallel workers, or independent review
+  through Orca. For an unsupervised ownership transfer, use Orca's handoff guide.
 ---
 
 # Orca Orchestrator
 
-Act as Orca **Coordinator**: define goals, select execution settings, delegate, supervise, and accept results. Claude Code, Codex, and OMP can each coordinate or execute; **role, harness, and model are separate choices**.
+Act as Coordinator: scope work, choose execution settings, delegate, supervise, and accept results. Role, agent harness, and model are separate choices.
 
-## 1. Establish role and protocol
+## 1. Establish authority and protocol
 
-1. A valid Orca Task / Dispatch preamble makes this session a **worker**. Follow its execution, question, and reporting protocol; do not create another Run or replace the Coordinator.
-2. For ownership transfer without supervision, waiting, or acceptance, use Orca's ordinary handoff guidance.
-3. For supervised work, locate the local Orca CLI, read its `orchestration` skill, then run `skills get orchestration` through **that same executable**. Follow the returned version-specific guide and load branch-specific references as directed.
-4. Verify runtime availability and session permissions. Report missing capabilities as blockers; other subagents, background scripts, or guessed commands do not establish Orca execution.
+This workflow carries the user's **standing authorization to select worker harnesses, models, and reasoning effort per task without repeated confirmation**. Explicit user choices, budget limits, and applicable project or host constraints take precedence. Use per-launch settings; preserve global defaults. Model selection does not authorize additional scope, releases, or deployments.
 
-**Done:** Role is established and execution matches the installed Orca capabilities.
+This authorization replaces Orca's default policy of overriding models only when the user names one. Orca's supported capabilities and execution protocol still apply.
 
-## 2. Discover and apply skills
+- A live Task / Dispatch preamble identifies a worker. Follow that preamble; request assistance from the Coordinator rather than delegating further.
+- For supervision, resolve the CLI through the local `orchestration` skill, then read `skills get orchestration` through that executable. Reuse it throughout and load conditional references when directed.
+- Use Orca for launch, placement, messaging, lifecycle, recovery, and cleanup. Confirm runtime access; report missing capabilities without substituting another agent system.
+- For ownership transfer without supervision, use Orca's handoff guide.
 
-Before planning, inspect the harness's accessible skills, repository `AGENTS.md` / `CLAUDE.md`, and existing conventions. Read [references/skill-routing.md](references/skill-routing.md) and select skills by **task triggers**, loading only relevant ones.
+**Done:** Role and runtime are established; the Coordinator owns execution decisions under the user's constraints.
 
-- The **session responsible for each phase must read and apply** matching, automatically invocable skills. Naming a skill, loading it only in the Coordinator, or mentioning it in a dispatch does not establish worker application.
-- Respect invocation restrictions: `disable-model-invocation: true` requires explicit user invocation. Check other applicable policies through the routing guide.
-- Verify that workers can access required skill bodies, references, and tools. Share authorized materials with sources or block the affected task. **Sharing text does not supply browsers, MCP services, or credentials.**
-- If an optional skill is unavailable, use an appropriate basic method and report it as unused.
+## 2. Scope the smallest complete tasks
 
-**Done:** Each required skill has a trigger, owner, readable entry point, and availability status; user-required skills are accounted for.
+Read relevant implementation, project instructions, and existing plans. Define the required result and observable acceptance; reuse sufficient existing material.
 
-## 3. Scope work and select execution
+Start with one implementation worker for a complete, verifiable change. Add workers for independent work, a distinct design question, or justified independent review. Keep coupled changes together and coordination flat.
 
-Establish goals, project state, constraints, and observable acceptance criteria. Use the fewest tasks needed: keep coupled changes together; parallelize only independently verifiable work with clear ownership.
+Assign modification boundaries before parallel work, including shared interfaces or runtime resources when relevant. For work requiring integration, name its owner, target workspace, and final checks. Follow Orca's placement guidance; a new worker does not imply a new worktree.
 
-Choose workers from available **(agent harness, model, effort)** combinations:
+**Done:** Each task has an owner, result, acceptance method, and any required integration responsibility.
 
-- Clear scope and runnable acceptance: prefer a proven, lower-cost combination.
-- Architectural tradeoffs, complex diagnosis, or demonstrated capability gaps: strengthen execution or narrow the problem.
-- Authentication, rate limits, missing tools, or incomplete prompts: fix the actual cause before blaming model capability.
+## 3. Select the execution combination
 
-Check supported models and launch options; pass selections per the current Orca guide. **A requested model is not a verified active model**; record unknowns. Respect user model, budget, approval, and harness constraints.
+Discover supported harnesses, models, tools, and launch options on the execution host. Reuse confirmed information until availability or task needs change.
 
-**Done:** Every task has an owner, workspace, goal, acceptance method, and verified execution settings or explicit unknowns.
+Select in this order: **required access/tools → task capability → verification difficulty → expected total time and cost**.
 
-## 4. Dispatch and supervise
+| Task | Selection preference |
+| --- | --- |
+| Bounded, routine, easily checked | A reliable fast model with low or normal effort |
+| Standard feature with established patterns | A capable general model with normal effort |
+| Unclear root cause, architecture tradeoffs, complex interactions | Stronger reasoning; increase effort as needed |
+| Independent review | A model able to assess the whole candidate; use a different model when its perspective adds value |
 
-Use the installed Orca supervised-worker workflow. Each dispatch must stand alone and include:
+These are decision cues, not fixed roles or a model registry. Include context preparation, coordination, and likely rework in the tradeoff. Do not fragment cohesive work to fit a cheaper model or default every task to maximum effort. Where comparative evidence is missing, use a known suitable combination and state the uncertainty.
+
+Give one sentence explaining each selection. Verify actual settings from Orca's launch evidence; requested settings alone do not prove the active model. Report unknowns and claim savings only from measured data.
+
+If an automatically selected model is unavailable, choose another suitable authorized combination through Orca's recovery protocol. If a user-required model is unavailable, report the blocker rather than silently replacing it.
+
+**Done:** The selected combination can perform the task, its rationale is clear, and effective settings are verified or explicitly unknown.
+
+## 4. Dispatch self-contained work
+
+Select and apply skills using [references/skill-routing.md](references/skill-routing.md). Extend Orca's task contract with the context needed by the receiving session:
 
 ```text
-Target:       Files, components, or environment
-Change:       Required observable behavior or artifact
-Constraints:  Required compatibility, security boundaries, preserved behavior
-Ownership:    Writable paths, workspace/branch, boundaries with other tasks
-Acceptance:   Checks, expected results, evidence
-Skills:       Required/optional skills, accessible entry points, tools
-Handoff:      Changes, actual checks, remaining issues, evidence locations
+Target / Change: Scope and required behavior or artifact
+Context:         Relevant files, decisions, input artifacts, accessible locations
+Constraints:     Invariants and excluded work
+Ownership:       Writable scope, workspace, coordination and integration boundaries
+Acceptance:      Checks, expected results, evidence
+Skills / Tools:  Required skills, readable entry points, necessary capabilities
+Handoff:         Changes, actual checks, remaining issues, artifact locations
 ```
 
-Workers may lack Coordinator history and other worktrees' uncommitted files. Provide accessible paths, commits, or summaries; preserve user changes. Start with one implementation worker by default. Give parallel workers separate modification boundaries; nested workers require explicit Coordinator authorization.
+Write key decisions into the brief and link larger materials. Workers may lack conversation history or other workspaces' uncommitted changes; make required inputs accessible before dispatch. Preserve existing user work.
 
-Handle questions and `worker_done` through Orca messaging/waits. Before stopping, retrying, abandoning, or releasing, require positive evidence under the version guide. Timeouts, silence, and idle terminals do not prove exit.
+**Done:** The worker can begin independently with the required context and capabilities.
 
-**Done:** Orca records support each Dispatch state; artifacts identify their task and worker.
+## 5. Supervise and adjust from evidence
 
-## 5. Accept, repair, and close
+Follow Orca's current coordinator loop for questions, updates, completion, and recovery. Let Orca own lifecycle state; this workflow supplies delivery decisions:
 
-Check actual diffs/artifacts, test commands, outputs, and coverage gaps against the task contract. Worker completion is a **report**, not acceptance evidence. Use independent review when warranted by cross-module changes, permission/security boundaries, non-runnable acceptance, or correctness doubts. Keep the review candidate stable.
+- Missing context or misunderstanding: clarify the brief.
+- Tool, authentication, permission, or rate-limit failure: address that cause.
+- Localized defect: dispatch a bounded repair and verify it.
+- Repeated failure on the same issue without new evidence: change the diagnostic approach, task boundary, or execution combination.
+- Evidence invalidates the plan: reassess; ask only for decisions outside existing authorization.
 
-For a localized in-scope defect, request one targeted repair and verify it. On another failure, replan, split, or strengthen execution. Follow user authorization for scope/architecture changes, dangerous actions, privilege escalation, releases, and merges.
+Choose repairs by cause, not a fixed retry count. Respect Orca's retry limits. Change models through a supported new attempt or follow-up after resolving the current attempt; never create competing editors to escape an uncertain state.
 
-Follow the version guide for acknowledgments, worker retention/reuse/release, and outstanding-task checks. Release is not cancellation; missing messages do not justify duplicate editors.
+## 6. Accept, integrate, and close
 
-Report results, actual harnesses and verified models, applied skills, changes/artifacts, checks, and unresolved issues. Report costs or savings only from real data.
+**Orca settlement ends an execution attempt; Coordinator acceptance establishes that its result meets the task contract.** Check actual diffs/artifacts and verification evidence. Record the acceptance conclusion in the existing task record or handoff, without a second lifecycle system.
 
-**Done:** All in-scope tasks have conclusions and evidence; exceptions remain traceable; Orca resources are handled per protocol.
+Dispatch work that consumes an upstream result only after accepting the parts it depends on. Task completion or readiness alone is insufficient. Unrelated work may continue. For complex dependency plans, use a verification task when useful rather than adding one to every task.
+
+Use independent review for high-impact changes, cross-module changes, or unresolved correctness doubts. Keep the candidate stable during review and recheck affected behavior after repairs. A settled task's repair is fresh follow-up work; use Orca's failed-attempt retry path only when applicable. Route fixes to the assigned owner; review findings do not expand edit authority.
+
+The integration owner combines accepted results and checks the resulting version. Separate worker checks do not establish integrated behavior.
+
+Follow Orca's protocol for acknowledgment, reuse, retention, release, and outstanding work. Report the result and artifact locations, actual harnesses and verified models, checks and outcomes, applied skills, and unresolved or unverified work. Mention model changes or missing skills when they affect delivery.
+
+**Done:** The final result meets acceptance, or incomplete work and its cause are explicit; Orca's completion and resource obligations are satisfied.
