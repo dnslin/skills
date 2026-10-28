@@ -20,6 +20,7 @@ You are the **brain**: the session the user talks to, on any host (Claude Code, 
 
 - **Worker check first.** If your prompt holds a live Orca preamble with Task and Dispatch IDs, you are a worker. Follow the preamble and Orca's worker contract, plus the `Read first`, ownership, and `Report` lines of your spec.
 - **The brain does not write code.** Every code change, including one-line fixes, goes to a worker. The brain edits only `brief.md`, and the ledger only through `RUNPY`. The one exception is the user explicitly telling the brain to make an edit.
+- **The base branch is the brain's branch.** Work reaches it only through a pull request that the user merges. No one, brain or worker, commits to it, merges into it, or pushes it.
 - **Any host can dispatch any agent.** Pick workers with `--agent claude|codex|omp|…`. Workers run on this machine; do not use remote placement (`--on`).
 - **Authority.** The user chooses which agent does which kind of work (section 5); the brain may then choose model and effort within that agent. Explicit user choices, budget limits, and project rules win. Ask before running more than 4 workers at once or more than one at maximum effort. Model choice never authorizes extra scope, releases, or deployments.
 - **The user can talk to a worker directly.** The user's instruction wins; the worker tells the brain with `send` and records it under Decisions made.
@@ -36,10 +37,10 @@ For an unsupervised handoff, use `ORCA skills get orca-cli` instead and stop her
 ## 3. The run folder
 
 ```text
-RUN=$(RUNPY init <workspace> <run_id> --objective "<one line>")
+RUN=$(RUNPY init <workspace> <run_id> --objective "<one line>" [--base <branch>])
 ```
 
-This creates `<workspace>/.orca-run/<run_id>/` from the template, creates `.orca-run/project-notes.md` if this is the first run, and, in Git, adds `.orca-run/` to `.git/info/exclude`. Fill in `brief.md` (goal, constraints, the one project-rules file every worker must read: `CLAUDE.md` or `AGENTS.md`).
+This records the base branch (the brain's current branch unless `--base` is given; it fails on a detached HEAD), creates `<workspace>/.orca-run/<run_id>/` from the template, creates `.orca-run/project-notes.md` if this is the first run, and, in Git, adds `.orca-run/` to `.git/info/exclude`. Fill in `brief.md` (goal, constraints, the one project-rules file every worker must read: `CLAUDE.md` or `AGENTS.md`).
 
 | File | Only writer | Holds |
 | --- | --- | --- |
@@ -55,7 +56,7 @@ This creates `<workspace>/.orca-run/<run_id>/` from the template, creates `.orca
 
 Orca's `task-list` and `worker-list` are the source of truth for execution state; the ledger records only what Orca does not know (acceptance, rationale, paths). Give workers absolute paths.
 
-**Ledger commands:** `RUNPY task-add --run $RUN --slug <s> --agent <a> --why "<one line>" --context <topics>`, `RUNPY task-set --run $RUN --slug <s> --status <planned|dispatched|review|accepted|rejected|failed> [--dispatch --model --branch --commits --report --result --rework]`, `RUNPY show --run $RUN`.
+**Ledger commands:** `RUNPY task-add --run $RUN --slug <s> --agent <a> --why "<one line>" --context <topics>`, `RUNPY task-set --run $RUN --slug <s> --status <planned|dispatched|review|accepted|rejected|failed> [--dispatch --model --branch --commits --report --pr --result --rework]`, `RUNPY show --run $RUN`.
 
 **Budget rules for the brain:**
 
@@ -77,7 +78,7 @@ Read first: <workspace>/.orca-run/project-notes.md, <RUN>/harness-notes.md, <RUN
 Target: <files, component, or environment>
 Constraints: <invariants, do-not-touch>
 Ownership: may edit <paths>; write only <RUN>/tasks/<slug>.md and <RUN>/reports/<slug>.md
-Placement: branch orca/<run_id>/<slug>; commit your work there
+Placement: branch orca/<run_id>/<slug> from <base branch>; commit only there, never to the base branch
 Acceptance: <command or evidence that proves completion>
 Skills: <skill names or entry-point paths>
 Plan gate: <required | skip>
@@ -114,7 +115,7 @@ Record one sentence of rationale with `--why`. Compare `launch.effective` with `
 
 ## 6. Dispatch and supervise
 
-- **Isolation.** Parallel tasks that write code each get their own worktree (`--worktree new-child --name <slug> --setup run`) and branch `orca/<run_id>/<slug>`. Read-only scouts and reviewers may share `--worktree current`. A single sequential writer may use the current worktree but still commits per task. Parallel writers may share the current worktree only when their owned paths are disjoint and neither runs commands that disturb the other (such as tests during a benchmark); record that under Decisions.
+- **Isolation.** Every task that writes code, parallel or sequential, gets its own worktree (`--worktree new-child --name <slug> --setup run`) and branch `orca/<run_id>/<slug>`, cut from the base branch. The current worktree holds the base branch, so only read-only scouts and reviewers may use `--worktree current`.
 - **Waves.** Register tasks with `RUNPY task-add` and Orca `task-create` (`--deps` only for real ordering). Start the whole independent wave before waiting, then loop on `check --wait` as Orca's guide describes.
 - **Each delivery:** answer questions and plan gates with `reply`; validate `worker_done`; update the ledger with `task-set`; decide reuse, retain, or release; then `--ack`.
 - **Steering.** Correct a running worker with `ORCA orchestration send --to dispatch:<id>`; workers read these at each checkpoint.
@@ -128,11 +129,15 @@ Run these layers in order; any failure sends the task back.
 1. **Worker self-check** (every task): the acceptance command's result is in Evidence and `check-report` passes. This is input, not acceptance.
 2. **Brain gate** (every task): `RUNPY check-report <report>`; read Verdict, Commits, Changes, Evidence; rerun the acceptance command yourself if its output is short (do not write your own test scripts; put extra checks in the reviewer's spec); run `git diff --stat <base>..<branch>` and confirm only owned paths changed.
 3. **Independent review** (when the change crosses modules, changes a public interface, touches security or data, is user-visible, was already reworked once, or you have doubts): dispatch a reviewer on another model with the branch, commit range, `tasks/<slug>.md`, and the intent. It writes `reports/<slug>-review.md` with a verdict and findings as `path:line - issue - how to reproduce`, and edits nothing.
-4. **Integration** (when results must be combined): an integration worker merges accepted branches in dependency order and runs the full test suite.
+4. **Pull request** (after the task or set of tasks is accepted): the brain never merges. A worker pushes a branch and opens a PR into the base branch; the user reviews and merges it.
+   - **One accepted task:** its owner pushes `orca/<run_id>/<slug>` and opens the PR.
+   - **Several accepted tasks that belong together:** an integration worker creates `orca/<run_id>/integration` from the latest base branch, merges the accepted branches into it in dependency order, runs the full test suite, then pushes and opens one PR. It resolves conflicts within the owned intent and lists them under Decisions made; a conflict that changes behavior goes back to the brain as an `ask`.
+   - The PR body links the tasks and summarizes Evidence and review results. The worker records the URL in its report; the brain runs `task-set --pr <url>`, then confirms the PR's base is the base branch and that `git diff --stat <base>...<pr branch>` shows only owned paths.
+   - No remote, no push access, or no `gh`: stop and ask the user. Do not fall back to a local merge.
 
 **Closing the loop.** On rejection: `task-set --status rejected --rework`, then a follow-up to the same owner pointing at the review report. Keep the owner until its task is accepted; if it is gone, start a new worker on the same slug whose spec points at `tasks/<slug>.md`, its report, and the review report. After two rejections on the same issue, change approach, agent, or task boundary; after that, escalate to the user. If the owner disputes a finding, it answers in its report; settle disputes with a second reviewer or the user.
 
-**On acceptance:** `task-set --status accepted --result "<one line>"`, then `RUNPY archive --run $RUN --slug <s>`, which moves the task's plan and reports into `archive/<slug>/` and archives context no open task uses. Release the settled worker per Orca's completion accounting. Start dependent tasks only after accepting what they consume.
+**On acceptance:** `task-set --status accepted --result "<one line>"` (acceptance means ready for a PR, not merged), then `RUNPY archive --run $RUN --slug <s>`, which moves the task's plan and reports into `archive/<slug>/` and archives context no open task uses. Keep a lone task's owner until its PR is open, then release it per Orca's completion accounting. Start dependent tasks only after accepting what they consume; because the base branch does not have that work until the PR merges, a dependent task branches from the accepted branch it consumes, and the chain ships through the integration branch.
 
 ## 8. Refine the harness
 
@@ -153,4 +158,4 @@ The harness is everything workers are given besides the code: brief, spec templa
 
 When every task is accepted, failed, or archived: `RUNPY close --run $RUN` moves the run to `.orca-run/archive/<run_id>/`, lists runs beyond the newest 5 as deletion candidates (delete only with the user's approval), and lists run-scope refine notes not yet promoted. Promote the ones that helped and hold beyond this run with `RUNPY refine-promote --id <id>`.
 
-Report per task: outcome, evidence, agent and verified model, review result, open issues. Mention missing skills or model changes that affected delivery. Skill selection for workers is in [references/skill-routing.md](references/skill-routing.md).
+Report per task: outcome, evidence, agent and verified model, review result, PR link, open issues. List PRs still waiting for the user to merge. Delete `orca/<run_id>/*` branches and worktrees only after their PR is merged or closed, and only with the user's approval. Mention missing skills or model changes that affected delivery. Skill selection for workers is in [references/skill-routing.md](references/skill-routing.md).

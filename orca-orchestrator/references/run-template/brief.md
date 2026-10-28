@@ -3,6 +3,9 @@
 ## Goal
 <objective>
 
+## Base branch
+<base_branch>. The brain's branch. Workers never commit to it, merge into it, or push it; finished work reaches it only through a pull request that the user merges.
+
 ## Constraints
 - <invariants, excluded work, budget limits, user-required models>
 

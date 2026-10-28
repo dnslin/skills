@@ -71,15 +71,18 @@ def cmd_init(a):
     run = root / ".orca-run" / a.run_id
     if run.exists():
         fail(f"{run} already exists")
+    base = a.base or git(root, "branch", "--show-current")
+    if git(root, "rev-parse", "--git-dir") and not base:
+        fail("cannot detect the brain's branch (detached HEAD?); pass --base <branch>")
     for sub in ("context", "tasks", "reports", "archive"):
         (run / sub).mkdir(parents=True)
-    brief = BRIEF_TEMPLATE.read_text().replace("<objective>", a.objective)
+    brief = BRIEF_TEMPLATE.read_text().replace("<objective>", a.objective).replace("<base_branch>", base or "none (not a git repo)")
     (run / "brief.md").write_text(brief)
     (run / "harness-notes.md").write_text(HARNESS_NOTES_HEADER)
     notes = root / ".orca-run" / "project-notes.md"
     if not notes.exists():
         notes.write_text(PROJECT_NOTES_HEADER)
-    save(run, {"run_id": a.run_id, "workspace": str(root), "created": now(), "tasks": {}})
+    save(run, {"run_id": a.run_id, "workspace": str(root), "base_branch": base, "created": now(), "tasks": {}})
     git_dir = git(root, "rev-parse", "--git-common-dir")
     if git_dir:
         exclude = (root / git_dir / "info" / "exclude").resolve()
@@ -100,7 +103,7 @@ def cmd_task_add(a):
     ledger["tasks"][a.slug] = {
         "status": "planned", "agent": a.agent, "why": a.why, "orca_task": a.orca_task,
         "context": [c for c in (a.context or "").split(",") if c],
-        "dispatch": None, "model": None, "branch": None, "commits": [], "report": None,
+        "dispatch": None, "model": None, "branch": None, "commits": [], "report": None, "pr": None,
         "result": None, "rework": 0, "updated": now(),
     }
     save(a.run, ledger)
@@ -116,7 +119,7 @@ def cmd_task_set(a):
         if a.status == "archived":
             fail("use the archive command")
         task["status"] = a.status
-    for field in ("dispatch", "model", "branch", "report", "result", "orca_task"):
+    for field in ("dispatch", "model", "branch", "report", "result", "orca_task", "pr"):
         value = getattr(a, field)
         if value is not None:
             task[field] = value
@@ -139,10 +142,12 @@ def section(text, name):
 def cmd_show(a):
     run = Path(a.run)
     ledger = load(run)
+    print(f"base branch: {ledger.get('base_branch') or '-'}")
     rows = [(s, t) for s, t in ledger["tasks"].items() if a.all or t["status"] != "archived"]
     for slug, t in rows:
         model = t["model"] or "?"
-        print(f"{slug} | {t['status']} | {t['agent']}/{model} | rework {t['rework']} | {t['result'] or '-'}")
+        pr = t.get("pr") or "-"
+        print(f"{slug} | {t['status']} | {t['agent']}/{model} | rework {t['rework']} | pr {pr} | {t['result'] or '-'}")
     archived = sum(1 for t in ledger["tasks"].values() if t["status"] == "archived")
     if not a.all and archived:
         print(f"({archived} archived)")
@@ -367,6 +372,7 @@ def main():
 
     s = sub.add_parser("init", help="create a run folder")
     s.add_argument("workspace"); s.add_argument("run_id"); s.add_argument("--objective", required=True)
+    s.add_argument("--base", help="branch PRs target; defaults to the brain's current branch")
     s.set_defaults(fn=cmd_init)
 
     s = sub.add_parser("task-add", help="register a task")
@@ -380,6 +386,7 @@ def main():
     s.add_argument("--status"); s.add_argument("--dispatch"); s.add_argument("--model")
     s.add_argument("--branch"); s.add_argument("--commits"); s.add_argument("--report")
     s.add_argument("--result"); s.add_argument("--orca-task", dest="orca_task")
+    s.add_argument("--pr", help="URL of the pull request into the base branch")
     s.add_argument("--rework", action="store_true", help="count one more rework round")
     s.set_defaults(fn=cmd_task_set)
 
